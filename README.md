@@ -5,7 +5,7 @@ This is a little description about your project.
 **Tech Stack:** MongoDB, Express.js, React.js, Node.js, Typescript
 
 **Contributors**: [Hatchways](https://github.com/hatchways) (replace)
-
++ Julian Parengo
 ---
 
 ### Getting Started
