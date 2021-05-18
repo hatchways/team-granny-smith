@@ -15,6 +15,13 @@ export const theme = createMuiTheme({
         borderRadius: 20,
       },
     },
+    MuiSelect: {
+      select: {
+        '&:focus': {
+          backgroundColor: 'white',
+        },
+      },
+    },
   },
   palette: {
     primary: { main: '#DF1B1B' },

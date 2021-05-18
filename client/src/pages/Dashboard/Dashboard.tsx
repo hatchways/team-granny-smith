@@ -9,6 +9,7 @@ import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
 import { useEffect } from 'react';
 import DashboardHeader from '../../components/DashboardHeader/DashboardHeader';
 import AddNewItem from '../../components/AddNewItem/AddNewItem';
+import ShoppingLists from '../../components/ShoppingLists/ShoppingLists';
 
 import { Box, Button } from '@material-ui/core';
 
@@ -27,10 +28,11 @@ export default function Dashboard(): JSX.Element {
   // }
 
   return (
-    <Grid container component="main" className={`${classes.root} ${classes.dashboard}`}>
+    <Grid container component="main" justify="center" className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <DashboardHeader />
       <AddNewItem />
+      <ShoppingLists />
     </Grid>
   );
 }

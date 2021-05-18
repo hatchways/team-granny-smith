@@ -8,7 +8,7 @@ const useStyles = makeStyles((theme) => ({
   navBar: {
     position: 'sticky',
     backgroundColor: 'white',
-    boxShadow: '0px 0px 6px 0px #d5d5d5',
+    boxShadow: '0px 0px 2px 0px #d5d5d5',
     height: '4rem',
   },
   navBarItem: {
