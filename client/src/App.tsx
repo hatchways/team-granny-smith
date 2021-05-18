@@ -4,18 +4,14 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import Login from './pages/Login/Login';
 import Signup from './pages/SignUp/SignUp';
 import Dashboard from './pages/Dashboard/Dashboard';
-import { AuthProvider } from './context/useAuthContext';
+import { AuthProvider, useAuth } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
-import React, { useState } from 'react';
 import './App.css';
 
 function App(): JSX.Element {
-  //user state
-  //TODO: needs to check if user is logged in and set the state accordingly
-  const [loggedInUser, setLoggedInUser] = useState(false);
-
+  const { loggedInUser } = useAuth();
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>

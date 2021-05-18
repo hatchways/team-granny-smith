@@ -20,10 +20,8 @@ export default function Dashboard(): JSX.Element {
     initSocket();
   }, [initSocket]);
 
-  if (loggedInUser === undefined) return <CircularProgress />;
   if (!loggedInUser) {
-    history.push('/login');
-    // loading for a split seconds until history.push works
+    // loading for a split seconds until redirected to login page
     return <CircularProgress />;
   }
 
