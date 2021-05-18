@@ -7,10 +7,15 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import { AuthProvider } from './context/useAuthContext';
 import { SocketProvider } from './context/useSocketContext';
 import { SnackBarProvider } from './context/useSnackbarContext';
-
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.js';
+import React, { useState } from 'react';
 import './App.css';
 
 function App(): JSX.Element {
+  //user state
+  //TODO: needs to check if user is logged in and set the state accordingly
+  const [loggedInUser, setLoggedInUser] = useState(false);
+
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
@@ -20,9 +25,7 @@ function App(): JSX.Element {
               <Switch>
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={Signup} />
-                <Route exact path="/dashboard">
-                  <Dashboard />
-                </Route>
+                <ProtectedRoute exact path="/dashboard" loggedInUser={loggedInUser} component={Dashboard} />
                 <Route path="*">
                   <Redirect to="/login" />
                 </Route>
