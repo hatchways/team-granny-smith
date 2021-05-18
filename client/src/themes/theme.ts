@@ -9,8 +9,15 @@ export const theme = createMuiTheme({
       fontWeight: 700,
     },
   },
+  overrides: {
+    MuiButton: {
+      root: {
+        borderRadius: 20,
+      },
+    },
+  },
   palette: {
-    primary: { main: '#3A8DFF' },
+    primary: { main: '#DF1B1B' },
   },
   shape: {
     borderRadius: 5,

@@ -6,6 +6,8 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: '1.5rem',
   },
   navBar: {
+    position: 'sticky',
+    backgroundColor: 'white',
     boxShadow: '0px 0px 6px 0px #d5d5d5',
     height: '4rem',
   },

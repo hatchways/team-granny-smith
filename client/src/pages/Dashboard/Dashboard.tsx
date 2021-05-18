@@ -8,6 +8,7 @@ import { Link, useHistory } from 'react-router-dom';
 import ChatSideBanner from '../../components/ChatSideBanner/ChatSideBanner';
 import { useEffect } from 'react';
 import DashboardHeader from '../../components/DashboardHeader/DashboardHeader';
+import AddNewItem from '../../components/AddNewItem/AddNewItem';
 
 import { Box, Button } from '@material-ui/core';
 
@@ -29,6 +30,7 @@ export default function Dashboard(): JSX.Element {
     <Grid container component="main" className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <DashboardHeader />
+      <AddNewItem />
     </Grid>
   );
 }
