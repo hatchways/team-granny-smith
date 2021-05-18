@@ -2,18 +2,16 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   authHeader: {
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     alignItems: 'center',
     display: 'flex',
     flexWrap: 'wrap',
   },
   accAside: {
     fontSize: 14,
-    color: '#b0b0b0',
-    fontWeight: 400,
+    color: '#000000',
+    fontWeight: 700,
     textAlign: 'center',
-    marginRight: 35,
     whiteSpace: 'nowrap',
     display: 'flex',
     alignItems: 'center',
@@ -21,14 +19,12 @@ const useStyles = makeStyles((theme) => ({
   },
   link: { textDecoration: 'none' },
   accBtn: {
-    width: 170,
-    height: 54,
-    borderRadius: theme.shape.borderRadius,
+    width: 120,
+    height: '2em',
     filter: 'drop-shadow(0px 2px 6px rgba(74,106,149,0.2))',
-    backgroundColor: '#ffffff',
-    color: '#3a8dff',
+    backgroundColor: '#f2f2f2',
+    color: '#ff0000',
     boxShadow: 'none',
-    marginRight: 35,
   },
 }));
 
