@@ -13,7 +13,7 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
     flexDirection: 'column',
     paddingTop: 23,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#ffffff',
   },
   welcome: {
     fontSize: 22,

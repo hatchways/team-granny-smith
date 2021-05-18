@@ -12,7 +12,8 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgb(0,0,0,1)',
     fontSize: 14,
     fontWeight: 700,
-    marginTop: theme.spacing(0),
+    marginTop: 15,
+    marginBottom: -15,
   },
   inputs: {
     height: '50px',
@@ -33,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '25px',
     marginTop: 30,
     fontSize: 14,
-    backgroundColor: '#ff0000',
     fontWeight: 'bold',
   },
 }));
