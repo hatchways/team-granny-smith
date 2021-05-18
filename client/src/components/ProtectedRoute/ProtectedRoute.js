@@ -1,4 +1,3 @@
-import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 //Protected route component to wrap pages that require users to be logged in beforehand.
