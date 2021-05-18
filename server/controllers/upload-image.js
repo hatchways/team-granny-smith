@@ -3,7 +3,7 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 
 //Secret keys should not be pushed to Git
-//Set your environment variables to the appropriate keys
+//You should add the keys to the .env file in the root directory
 aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -28,7 +28,10 @@ const upload = multer({
     bucket: 'team-granny-smith-s3/product-images',
     acl: 'public-read',
     metadata: function (req, file, cb) {
-      cb(null, {fieldName: file.fieldname});
+      cb(null, {fileName: file.originalname});
+    },
+    contentType: function (req, file, cb) {
+      cb(null, file.mimetype)
     },
     key: function (req, file, cb) {
       cb(null, "img-" + Date.now().toString())
