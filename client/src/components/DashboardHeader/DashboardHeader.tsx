@@ -21,7 +21,7 @@ export default function DashboardHeader(): JSX.Element {
         </Link>
       </Box>
       <Grid item>
-        <Button className={classes.navBarItem}>Shopping Lists</Button>
+        <Button className={`${classes.navBarItem} ${classes.navbarItemActive}`}>Shopping Lists</Button>
         <Button className={classes.navBarItem}>Friends</Button>
         <Button className={classes.navBarItem}>Notifications</Button>
       </Grid>

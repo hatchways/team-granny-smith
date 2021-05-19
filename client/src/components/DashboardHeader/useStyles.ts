@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) => ({
   },
   navBarItem: {
     margin: '.5rem',
+    fontWeight: 300,
+  },
+  navbarItemActive: {
+    fontWeight: 700,
   },
   profileWrapper: {
     marginLeft: '2.5rem',

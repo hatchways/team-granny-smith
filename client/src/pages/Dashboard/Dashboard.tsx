@@ -11,8 +11,8 @@ import DashboardHeader from '../../components/DashboardHeader/DashboardHeader';
 import AddNewItem from '../../components/AddNewItem/AddNewItem';
 import ShoppingLists from '../../components/ShoppingLists/ShoppingLists';
 
-import { Box, Button } from '@material-ui/core';
-
+//The unused imports and the code that is commented out will be used in the future as this
+//component get completed
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();
 
