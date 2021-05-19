@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     margin: '2rem',
   },
@@ -26,6 +26,10 @@ const useStyles = makeStyles((theme) => ({
   },
   selectInitialState: {
     color: '#a2a2a2',
+  },
+  addBtn: {
+    margin: '.5rem',
+    width: '7rem',
   },
 }));
 

@@ -1,5 +1,4 @@
 import { Box, Button, Grid } from '@material-ui/core';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 import useStyles from './useStyles';
 
@@ -21,8 +20,12 @@ export default function DashboardHeader(): JSX.Element {
         </Link>
       </Box>
       <Grid item>
-        <Button className={`${classes.navBarItem} ${classes.navbarItemActive}`}>Shopping Lists</Button>
-        <Button className={classes.navBarItem}>Friends</Button>
+        <Button className={`${classes.navBarItem} ${classes.navbarItemActive}`} component={Link} to={'/dashboard'}>
+          Shopping Lists
+        </Button>
+        <Button className={classes.navBarItem} component={Link} to={'/dashboard/friends'}>
+          Friends
+        </Button>
         <Button className={classes.navBarItem}>Notifications</Button>
       </Grid>
       <Grid

@@ -6,7 +6,7 @@ import useStyles from './useStyles';
 export default function AddNewItem(): JSX.Element {
   const classes = useStyles();
   const [list, setList] = React.useState('');
-  const [lists, setLists] = React.useState(['Clothes', 'Furniture', 'Luxury']);
+  const [lists] = React.useState(['Clothes', 'Furniture', 'Luxury']);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setList(event.target.value as string);
@@ -37,7 +37,7 @@ export default function AddNewItem(): JSX.Element {
             </MenuItem>
           ))}
         </Select>
-        <Button variant="contained" color="primary" style={{ margin: '.5rem', width: '7rem' }}>
+        <Button variant="contained" color="primary" className={classes.addBtn}>
           ADD
         </Button>
       </form>

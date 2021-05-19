@@ -1,5 +1,4 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import * as React from 'react';
 import useStyles from './useStyles';
 
 //this is for the case we do not have an image for the shopping list
