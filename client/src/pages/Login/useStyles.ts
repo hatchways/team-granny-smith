@@ -15,6 +15,11 @@ const useStyles = makeStyles(() => ({
     paddingTop: 23,
     backgroundColor: '#ffffff',
   },
+  box1: {
+    width: '67%',
+    maxWidth: 600,
+    alignSelf: 'center',
+  },
   welcome: {
     fontSize: 22,
     color: '#000000',

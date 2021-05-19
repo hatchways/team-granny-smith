@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 700,
     marginTop: 15,
-    marginBottom: -15,
+    marginBottom: -7,
   },
   inputs: {
     height: '50px',
