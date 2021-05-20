@@ -6,6 +6,9 @@ import * as Yup from 'yup';
 import useStyles from './useStyles';
 import { CircularProgress } from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import login from '../../../helpers/APICalls/login';
+import { useAuth } from '../../../context/useAuthContext';
+import { useSnackBar } from '../../../context/useSnackbarContext';
 
 interface Props {
   handleSubmit: (
@@ -28,6 +31,22 @@ interface Props {
 
 export default function Login({ handleSubmit }: Props): JSX.Element {
   const classes = useStyles();
+  const { updateLoginContext } = useAuth();
+  const { updateSnackBarMessage } = useSnackBar();
+
+  const handleDemo = () => {
+    login('demo@grannysmith.com', 'qwerty').then((data) => {
+      if (data.error) {
+        updateSnackBarMessage(data.error.message);
+      } else if (data.success) {
+        updateLoginContext(data.success);
+      } else {
+        // should not get here from backend but this catch is for an unknown issue
+        console.error({ data });
+        updateSnackBarMessage('An unexpected error occurred. Please try again');
+      }
+    });
+  };
 
   return (
     <Formik
@@ -88,12 +107,20 @@ export default function Login({ handleSubmit }: Props): JSX.Element {
             value={values.password}
             onChange={handleChange}
           />
-          <Box textAlign="center">
+          <Box className={classes.buttonBox}>
             <Button type="submit" size="large" variant="contained" color="primary" className={classes.submit}>
-              {isSubmitting ? <CircularProgress style={{ color: 'white' }} /> : 'LOGIN'}
+              {isSubmitting ? <CircularProgress className={classes.circularProgress} /> : 'LOGIN'}
+            </Button>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              className={classes.demoButton}
+              onClick={handleDemo}
+            >
+              {isSubmitting ? <CircularProgress className={classes.circularProgress} /> : 'LOGIN DEMO USER'}
             </Button>
           </Box>
-          <div style={{ height: 10 }} />
         </form>
       )}
     </Formik>

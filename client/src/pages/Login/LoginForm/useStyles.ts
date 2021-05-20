@@ -35,6 +35,17 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     fontWeight: 'bold',
   },
+  buttonBox: {
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  demoButton: {
+    borderRadius: '25px',
+  },
+  circularProgress: {
+    color: 'white',
+  },
 }));
 
 export default useStyles;
