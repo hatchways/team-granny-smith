@@ -2,6 +2,7 @@ const Product = require('../models/Product')
 const asyncHandler = require('express-async-handler')
 
 //add a list to the collection
+//Route POST /product/addProduct
 exports.addProduct = asyncHandler(async (req, res, next) => {
   Product.create(req.body).then(function (product) {
     res.send(product)
@@ -9,6 +10,7 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
 })
 
 //remove a product from the collection by id parameter
+//Route DELETE /product/removeProduct/:id
 exports.removeProduct = asyncHandler(async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id)
@@ -20,6 +22,7 @@ exports.removeProduct = asyncHandler(async (req, res, next) => {
 })
 
 //edit a product in the collection
+//Route PATCH /product/updateProduct/:id
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id)
@@ -32,6 +35,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 })
 
 //find the product by id parameter
+//Route GET /product/findProducts/:id
 exports.findProducts = asyncHandler(async (req, res, next) => {
   try {
     const products = await Product.findById(req.params.id)
