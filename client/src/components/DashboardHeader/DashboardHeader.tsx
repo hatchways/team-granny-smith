@@ -6,11 +6,11 @@ import LogoPic from '../../Images/logoPic.png';
 import userImage from '../../Images/userImage1.png';
 
 import { User } from '../../interface/User'; //temp
+import { useAuth } from '../../context/useAuthContext';
 
 export default function DashboardHeader(): JSX.Element {
   const classes = useStyles();
-
-  const loggedInUser: User = { email: 'rose@gmail.com', username: 'Rose' }; //temp
+  const { loggedInUser } = useAuth();
 
   return (
     <Grid container item xs={12} direction="row" justify="center" alignItems="center" className={classes.navBar}>
@@ -40,7 +40,7 @@ export default function DashboardHeader(): JSX.Element {
         <Grid item>
           <img src={userImage} alt="Profile Picture" className={classes.profilePicture} />
         </Grid>
-        <Grid item>{loggedInUser.username}</Grid>
+        <Grid item>{loggedInUser!.username}</Grid>
       </Grid>
     </Grid>
   );

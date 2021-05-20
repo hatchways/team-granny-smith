@@ -14,13 +14,6 @@ export default function Dashboard(): JSX.Element {
   const classes = useStyles();
 
   const { loggedInUser } = useAuth();
-  const { initSocket } = useSocket();
-
-  const history = useHistory();
-
-  useEffect(() => {
-    initSocket();
-  }, [initSocket]);
 
   if (!loggedInUser) {
     // loading for a split seconds until redirected to login page
@@ -32,7 +25,7 @@ export default function Dashboard(): JSX.Element {
       <CssBaseline />
       <DashboardHeader />
       <AddNewItem />
-      <ShoppingLists />
+      <ShoppingLists userId={loggedInUser.id} />
     </Grid>
   );
 }

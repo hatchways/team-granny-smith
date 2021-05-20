@@ -72,6 +72,13 @@ const useStyles = makeStyles((theme) => ({
     height: '3rem',
     borderRadius: 30,
   },
+
+  buttonSpinner: {
+    color: 'white',
+    width: '20px !important',
+    height: '20px !important',
+    marginLeft: '.5rem',
+  },
 }));
 
 export default useStyles;

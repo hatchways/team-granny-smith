@@ -1,11 +1,9 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
   FormHelperText,
   Grid,
   TextField,
@@ -25,14 +23,20 @@ import clothesImage from '../../Images/clothes.png';
 import placeholderImage from '../../Images/placeholder-image.png';
 import uploadImage from '../../helpers/APICalls/uploadImage';
 import Dropzone from 'react-dropzone';
+import createNewList from '../../helpers/APICalls/createNewList';
 
-export default function ShoppingLists(): JSX.Element {
+interface Props {
+  userId: string;
+}
+
+export default function ShoppingLists({ userId }: Props): JSX.Element {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
   const [newListTitle, setNewListTitle] = React.useState('');
   const [newListImage, setNewListImage] = React.useState('');
-  const [uploading, setUploading] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
+  const [titleError, setTitleError] = React.useState('');
 
   const handleNewListTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setNewListTitle(event.target.value as string);
@@ -50,15 +54,32 @@ export default function ShoppingLists(): JSX.Element {
     const file = files[0];
     const formData = new FormData();
     formData.append('image', file);
-    setUploading(true);
 
     try {
       const data = await uploadImage(formData);
       setNewListImage(data.imageUrl);
-      setUploading(false);
     } catch (error) {
       console.error(error);
-      setUploading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!newListTitle) {
+      setTitleError('Please enter a name');
+      return;
+    } else if (newListTitle.length > 30) {
+      setTitleError('Name should not be more than 30 characters long');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const data = await createNewList(newListTitle, userId, newListImage);
+      console.log(data);
+      setSubmitting(false);
+    } catch (error) {
+      console.error(error);
+      setSubmitting(false);
     }
   };
 
@@ -126,6 +147,7 @@ export default function ShoppingLists(): JSX.Element {
                   classes: { input: classes.inputs },
                   disableUnderline: true,
                 }}
+                helperText={titleError ? titleError : ''}
                 name="title"
                 placeholder="Enter name"
                 value={newListTitle}
@@ -173,7 +195,13 @@ export default function ShoppingLists(): JSX.Element {
               )}
             </Dropzone>
 
-            <Button onClick={handleClose} color="primary" variant="contained" className={classes.createButton}>
+            <Button
+              endIcon={submitting ? <CircularProgress className={classes.buttonSpinner} /> : undefined}
+              onClick={handleSubmit}
+              color="primary"
+              variant="contained"
+              className={classes.createButton}
+            >
               CREATE LIST
             </Button>
           </Grid>
