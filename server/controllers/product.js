@@ -19,12 +19,19 @@ exports.removeProduct = asyncHandler(async (req, res, next) => {
   }
 })
 
-//edit a list in the collection
+//edit a product in the collection
 exports.updateProduct = asyncHandler(async (req, res, next) => {
-  //TODO
+  try {
+    const product = await Product.findById(req.params.id)
+    Object.assign(product, req.body)
+    product.save()
+    res.send({ data: product })
+  } catch {
+    res.status(404).send({ error: 'Product not found' })
+  }
 })
 
-//find the lists by id parameter
+//find the product by id parameter
 exports.findProducts = asyncHandler(async (req, res, next) => {
   try {
     const products = await Product.findById(req.params.id)

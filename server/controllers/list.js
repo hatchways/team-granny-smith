@@ -21,7 +21,14 @@ exports.removeList = asyncHandler(async (req, res, next) => {
 
 //edit a list in the collection
 exports.updateList = asyncHandler(async (req, res, next) => {
-  //TODO
+  try {
+    const list = await List.findById(req.params.id)
+    Object.assign(list, req.body)
+    list.save()
+    res.send({ data: list })
+  } catch {
+    res.status(404).send({ error: 'List not found' })
+  }
 })
 
 //find the lists by userId parameter

@@ -11,7 +11,7 @@ router.route('/addList').post(addList)
 
 router.route('/removeList/:id').delete(removeList)
 
-//router.route('/updateList').post(updateList)
+router.route('/updateList/:id').patch(updateList)
 
 router.route('/findLists/:userId').get(findLists)
 

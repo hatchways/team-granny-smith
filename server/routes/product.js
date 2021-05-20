@@ -11,7 +11,7 @@ router.route('/addProduct').post(addProduct)
 
 router.route('/removeProduct/:id').delete(removeProduct)
 
-//router.route('/updateProduct').post(updateProduct)
+router.route('/updateProduct/:id').patch(updateProduct)
 
 router.route('/findProducts/:id').get(findProducts)
 
