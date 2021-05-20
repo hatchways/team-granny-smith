@@ -8,7 +8,7 @@ const {
 
 router.route('/addProduct').post(addProduct)
 
-//router.route('/removeProduct').post(removeProduct)
+router.route('/removeProduct/:id').delete(removeProduct)
 
 //router.route('/updateProduct').post(updateProduct)
 

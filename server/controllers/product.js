@@ -3,21 +3,20 @@ const asyncHandler = require('express-async-handler')
 
 //add a list to the collection
 exports.addProduct = asyncHandler(async (req, res, next) => {
-  const productName = req.body.name
-  const productExists = await Product.findOne({ productName })
-
-  if (productExists) {
-    res.status(400)
-    throw new Error('A product with that name already exists')
-  }
-  await Product.create(req.body).then(function (product) {
+  Product.create(req.body).then(function (product) {
     res.send(product)
   })
 })
 
-//remove a list from the collection
+//remove a product from the collection by id parameter
 exports.removeProduct = asyncHandler(async (req, res, next) => {
-  //TODO
+  try {
+    const product = await Product.findById(req.params.id)
+    await product.remove()
+    res.send({ data: true })
+  } catch {
+    res.status(404).send({ error: 'List not found' })
+  }
 })
 
 //edit a list in the collection
