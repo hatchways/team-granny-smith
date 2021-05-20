@@ -15,11 +15,21 @@ exports.removeProduct = asyncHandler(async (req, res, next) => {
     await product.remove()
     res.send({ data: true })
   } catch {
-    res.status(404).send({ error: 'List not found' })
+    res.status(404).send({ error: 'Product not found' })
   }
 })
 
 //edit a list in the collection
 exports.updateProduct = asyncHandler(async (req, res, next) => {
   //TODO
+})
+
+//find the lists by id parameter
+exports.findProducts = asyncHandler(async (req, res, next) => {
+  try {
+    const products = await Product.findById(req.params.id)
+    res.send({ data: products })
+  } catch {
+    res.status(404).send({ error: 'Product not found' })
+  }
 })

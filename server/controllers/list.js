@@ -24,4 +24,12 @@ exports.updateList = asyncHandler(async (req, res, next) => {
   //TODO
 })
 
-//
+//find the lists by userId parameter
+exports.findLists = asyncHandler(async (req, res, next) => {
+  try {
+    const lists = await List.find({ userId: req.params.userId })
+    res.send({ data: lists })
+  } catch {
+    res.status(404).send({ error: 'List not found' })
+  }
+})
