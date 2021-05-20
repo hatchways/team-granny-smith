@@ -18,13 +18,19 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '3rem',
     color: theme.palette.primary.main,
   },
-
+  closeIcon: {
+    color: '#d7d7d7',
+    cursor: 'pointer',
+  },
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(0),
     display: 'flex',
     alignItems: 'center',
     flexDirection: 'column',
+  },
+  required: {
+    color: theme.palette.primary.main,
   },
   label: {
     color: 'rgb(0,0,0,1)',
