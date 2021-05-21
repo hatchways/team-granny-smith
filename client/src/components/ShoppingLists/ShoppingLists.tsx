@@ -14,7 +14,6 @@ export default function ShoppingLists(): JSX.Element {
   return (
     <Grid container justify="flex-start" alignItems="flex-start" direction="column" className={classes.root}>
       <Typography variant="h6">
-        {' '}
         <Box fontWeight={700}>My Shopping Lists</Box>
       </Typography>
       <Grid container item direction="row">
