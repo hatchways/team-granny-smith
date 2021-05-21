@@ -5,7 +5,7 @@ const {
   addProduct,
   removeProduct,
   updateProduct,
-  findProducts,
+  findProducts
 } = require("../controllers/product");
 
 router.route("/addProduct/:id").post(protect, addProduct);

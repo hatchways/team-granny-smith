@@ -5,7 +5,7 @@ const {
   addList,
   removeList,
   updateList,
-  findLists,
+  findLists
 } = require("../controllers/list");
 
 router.route("/addList").post(protect, addList);
