@@ -6,7 +6,7 @@ const {
   registerUser,
   loginUser,
   loadUser,
-  logoutUser,
+  logoutUser
 } = require("../controllers/auth");
 
 router.route("/register").post(validateRegister, registerUser);
