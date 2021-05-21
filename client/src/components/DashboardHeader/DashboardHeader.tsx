@@ -40,7 +40,7 @@ export default function DashboardHeader(): JSX.Element {
         <Grid item>
           <img src={userImage} alt="Profile Picture" className={classes.profilePicture} />
         </Grid>
-        <Grid item>{loggedInUser!.username}</Grid>
+        <Grid item>{loggedInUser?.username}</Grid>
       </Grid>
     </Grid>
   );

@@ -21,9 +21,13 @@ import clothesImage from '../../Images/clothes.png';
 
 //this is for the case we do not have an image for the shopping list
 import placeholderImage from '../../Images/placeholder-image.png';
+
 import uploadImage from '../../helpers/APICalls/uploadImage';
 import Dropzone from 'react-dropzone';
 import createNewList from '../../helpers/APICalls/createNewList';
+import { useSnackBar } from '../../context/useSnackbarContext';
+import getUserLists from '../../helpers/APICalls/getUserLists';
+import { ListInterface } from '../../helpers/APICalls/getUserLists';
 
 interface Props {
   userId: string;
@@ -31,14 +35,17 @@ interface Props {
 
 export default function ShoppingLists({ userId }: Props): JSX.Element {
   const classes = useStyles();
+  const { updateSnackBarMessage } = useSnackBar();
 
-  const [open, setOpen] = React.useState(false);
-  const [newListTitle, setNewListTitle] = React.useState('');
-  const [newListImage, setNewListImage] = React.useState('');
-  const [submitting, setSubmitting] = React.useState(false);
-  const [titleError, setTitleError] = React.useState('');
+  const [lists, setLists] = React.useState<ListInterface[]>([]);
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [newListTitle, setNewListTitle] = React.useState<string>('');
+  const [newListImage, setNewListImage] = React.useState<string>('');
+  const [submitting, setSubmitting] = React.useState<boolean>(false);
+  const [titleError, setTitleError] = React.useState<string>('');
 
   const handleNewListTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setTitleError('');
     setNewListTitle(event.target.value as string);
   };
 
@@ -75,13 +82,36 @@ export default function ShoppingLists({ userId }: Props): JSX.Element {
     setSubmitting(true);
     try {
       const data = await createNewList(newListTitle, userId, newListImage);
-      console.log(data);
       setSubmitting(false);
+      updateSnackBarMessage('List added successfully');
+      setOpen(false);
+
+      //cleaning the name field and the image uploaded
+      setNewListTitle('');
+      setNewListImage('');
+
+      setLists([...lists, data]);
     } catch (error) {
       console.error(error);
+      updateSnackBarMessage(error);
       setSubmitting(false);
     }
   };
+
+  React.useEffect(() => {
+    getUserLists(userId)
+      .then((response) => {
+        console.log(response.data);
+        setLists(response.data);
+      })
+      .catch(() => {
+        updateSnackBarMessage('There was a problem fetching your lists');
+      });
+
+    return () => {
+      setNewListTitle('');
+    };
+  }, []);
 
   return (
     <Grid container justify="flex-start" alignItems="flex-start" direction="column" className={classes.root}>
@@ -90,9 +120,12 @@ export default function ShoppingLists({ userId }: Props): JSX.Element {
         <Box fontWeight={700}>My Shopping Lists</Box>
       </Typography>
       <Grid container item direction="row">
-        <ShoppingList title="Clothes" image={clothesImage} numberOfItems={32} />
-        <ShoppingList title="Furniture" image={furnitureImage} numberOfItems={4} />
-        <ShoppingList title="Luxury" numberOfItems={8} />
+        {lists.length > 0 &&
+          lists.map((list: ListInterface) => {
+            return (
+              <ShoppingList key={list._id} title={list.name} image={list.image} numberOfItems={list.products.length} />
+            );
+          })}
         <Grid
           container
           item

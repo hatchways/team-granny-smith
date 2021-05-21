@@ -10,6 +10,7 @@ const createNewList = async (name: string, userId: string, image?: string): Prom
   const body = { name, image, userId };
   return await fetch('/list/addList', {
     method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   })
     .then((response) => {
