@@ -9,6 +9,20 @@ export const theme = createMuiTheme({
       fontWeight: 700,
     },
   },
+  overrides: {
+    MuiButton: {
+      root: {
+        borderRadius: 20,
+      },
+    },
+    MuiSelect: {
+      select: {
+        '&:focus': {
+          backgroundColor: 'white',
+        },
+      },
+    },
+  },
   palette: {
     primary: { main: '#DF1B1B' },
   },
