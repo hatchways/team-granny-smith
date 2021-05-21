@@ -1,26 +1,10 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Dialog,
-  DialogContent,
-  FormHelperText,
-  Grid,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import * as React from 'react';
 import useStyles from './useStyles';
 import ShoppingList from '../../components/ShoppingList/ShoppingList';
 import AddIcon from '@material-ui/icons/Add';
-import CloseIcon from '@material-ui/icons/Close';
 
-//this is for the case we do not have an image for the shopping list
-import placeholderImage from '../../Images/placeholder-image.png';
-
-import uploadImage from '../../helpers/APICalls/uploadImage';
-import Dropzone from 'react-dropzone';
-import createNewList from '../../helpers/APICalls/createNewList';
+import AddNewListDialog from '../../components/AddNewListDialog/AddNewListDialog';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import getUserLists from '../../helpers/APICalls/getUserLists';
 import { ListInterface } from '../../helpers/APICalls/getUserLists';
@@ -35,15 +19,6 @@ export default function ShoppingLists({ userId }: Props): JSX.Element {
 
   const [lists, setLists] = React.useState<ListInterface[]>([]);
   const [open, setOpen] = React.useState<boolean>(false);
-  const [newListTitle, setNewListTitle] = React.useState<string>('');
-  const [newListImage, setNewListImage] = React.useState<string>('');
-  const [submitting, setSubmitting] = React.useState<boolean>(false);
-  const [titleError, setTitleError] = React.useState<string>('');
-
-  const handleNewListTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setTitleError('');
-    setNewListTitle(event.target.value as string);
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,47 +26,6 @@ export default function ShoppingLists({ userId }: Props): JSX.Element {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleUpload = async (files: File[]) => {
-    const file = files[0];
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      const data = await uploadImage(formData);
-      setNewListImage(data.imageUrl);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const handleSubmit = async () => {
-    if (!newListTitle) {
-      setTitleError('Please enter a name');
-      return;
-    } else if (newListTitle.length > 30) {
-      setTitleError('Name should not be more than 30 characters long');
-      return;
-    }
-
-    setSubmitting(true);
-    try {
-      const data = await createNewList(newListTitle, userId, newListImage);
-      setSubmitting(false);
-      updateSnackBarMessage('List added successfully');
-      setOpen(false);
-
-      //cleaning the name field and the image uploaded
-      setNewListTitle('');
-      setNewListImage('');
-
-      setLists([...lists, data]);
-    } catch (error) {
-      console.error(error);
-      updateSnackBarMessage(error);
-      setSubmitting(false);
-    }
   };
 
   React.useEffect(() => {
@@ -103,10 +37,6 @@ export default function ShoppingLists({ userId }: Props): JSX.Element {
       .catch(() => {
         updateSnackBarMessage('There was a problem fetching your lists');
       });
-
-    return () => {
-      setNewListTitle('');
-    };
   }, []);
 
   return (
@@ -147,7 +77,15 @@ export default function ShoppingLists({ userId }: Props): JSX.Element {
           </Grid>
         </Grid>
       </Grid>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <AddNewListDialog
+        open={open}
+        setOpen={setOpen}
+        setLists={setLists}
+        handleClose={handleClose}
+        userId={userId}
+        lists={lists}
+      />
+      {/* <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <Grid>
           {' '}
           <Box ml={'auto'} textAlign={'right'} m={2}>
@@ -235,7 +173,7 @@ export default function ShoppingLists({ userId }: Props): JSX.Element {
             </Button>
           </Grid>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </Grid>
   );
 }
