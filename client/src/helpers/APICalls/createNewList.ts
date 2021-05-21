@@ -12,6 +12,7 @@ const createNewList = async (name: string, userId: string, image?: string): Prom
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
+    credentials: 'include',
   })
     .then((response) => {
       return response.json();

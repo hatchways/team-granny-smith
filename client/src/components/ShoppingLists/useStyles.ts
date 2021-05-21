@@ -4,7 +4,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: 'auto',
     maxWidth: '75rem',
-    margin: '2rem 0rem',
+    margin: '2rem',
   },
   addNewListContainer: {
     cursor: 'pointer',
