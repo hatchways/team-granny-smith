@@ -1,10 +1,16 @@
 import { CircularProgress } from '@material-ui/core';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { useAuth } from '../../context/useAuthContext';
+
+interface PrivateRouteProps extends RouteProps {
+  // eslint-disable-next-line
+  component: any;
+}
 
 //Protected route  component to wrap pages that require users to be logged in beforehand.
 //Redirects to login page is user=false
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const ProtectedRoute = (props: PrivateRouteProps): JSX.Element => {
+  const { component: Component, ...rest } = props;
   const { loggedInUser, isLoading } = useAuth();
   return (
     <Route
