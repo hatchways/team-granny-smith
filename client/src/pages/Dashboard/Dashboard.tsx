@@ -6,7 +6,7 @@ import AddNewItem from '../../components/AddNewItem/AddNewItem';
 import ShoppingLists from '../../components/ShoppingLists/ShoppingLists';
 import { useAuth } from '../../context/useAuthContext';
 import { useSocket } from '../../context/useSocketContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { CircularProgress } from '@material-ui/core';
 
 export default function Dashboard(): JSX.Element {
@@ -14,6 +14,8 @@ export default function Dashboard(): JSX.Element {
 
   const { loggedInUser } = useAuth();
   const { initSocket } = useSocket();
+
+  const [lists] = useState(['Clothes', 'Furniture', 'Luxury']);
 
   useEffect(() => {
     initSocket();
@@ -28,7 +30,7 @@ export default function Dashboard(): JSX.Element {
     <Grid container component="main" justify="center" className={`${classes.root} ${classes.dashboard}`}>
       <CssBaseline />
       <DashboardHeader />
-      <AddNewItem />
+      <AddNewItem lists={lists} />
       <ShoppingLists />
     </Grid>
   );

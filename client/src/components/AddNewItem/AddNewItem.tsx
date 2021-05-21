@@ -1,12 +1,15 @@
 import { Box, Button, Grid, MenuItem, Select, Typography } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
-import * as React from 'react';
+import React, { useState } from 'react';
 import useStyles from './useStyles';
 
-export default function AddNewItem(): JSX.Element {
+interface Props {
+  lists: string[];
+}
+
+export default function AddNewItem({ lists }: Props): JSX.Element {
   const classes = useStyles();
-  const [list, setList] = React.useState('');
-  const [lists] = React.useState(['Clothes', 'Furniture', 'Luxury']);
+  const [list, setList] = useState('');
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setList(event.target.value as string);
