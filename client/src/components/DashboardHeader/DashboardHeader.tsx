@@ -1,16 +1,16 @@
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, Button, CircularProgress, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import useStyles from './useStyles';
-
+import { useAuth } from '../../context/useAuthContext';
 import LogoPic from '../../Images/logoPic.png';
 import userImage from '../../Images/userImage1.png';
-
-import { User } from '../../interface/User'; //temp
 
 export default function DashboardHeader(): JSX.Element {
   const classes = useStyles();
 
-  const loggedInUser: User = { email: 'rose@gmail.com', username: 'Rose' }; //temp
+  const loggedInUser = useAuth().loggedInUser;
+
+  if (loggedInUser === undefined || !loggedInUser) return <CircularProgress />;
 
   return (
     <Grid container item xs={12} direction="row" justify="center" alignItems="center" className={classes.navBar}>
