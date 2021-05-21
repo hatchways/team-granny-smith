@@ -5,7 +5,6 @@ import useStyles from './useStyles';
 import LogoPic from '../../Images/logoPic.png';
 import userImage from '../../Images/userImage1.png';
 
-import { User } from '../../interface/User'; //temp
 import { useAuth } from '../../context/useAuthContext';
 
 export default function DashboardHeader(): JSX.Element {

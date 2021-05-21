@@ -5,8 +5,6 @@ import DashboardHeader from '../../components/DashboardHeader/DashboardHeader';
 import AddNewItem from '../../components/AddNewItem/AddNewItem';
 import ShoppingLists from '../../components/ShoppingLists/ShoppingLists';
 import { useAuth } from '../../context/useAuthContext';
-import { useSocket } from '../../context/useSocketContext';
-import { useEffect } from 'react';
 import { CircularProgress } from '@material-ui/core';
 
 export default function Dashboard(): JSX.Element {

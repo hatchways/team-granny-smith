@@ -15,10 +15,6 @@ import ShoppingList from '../../components/ShoppingList/ShoppingList';
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 
-//These static images are temporary
-import furnitureImage from '../../Images/furniture.png';
-import clothesImage from '../../Images/clothes.png';
-
 //this is for the case we do not have an image for the shopping list
 import placeholderImage from '../../Images/placeholder-image.png';
 
