@@ -7,7 +7,6 @@ import ShoppingLists from '../../components/ShoppingLists/ShoppingLists';
 import { useAuth } from '../../context/useAuthContext';
 import { useSocket } from '../../context/useSocketContext';
 import { useEffect } from 'react';
-import { useHistory } from 'react-router';
 import { CircularProgress } from '@material-ui/core';
 
 export default function Dashboard(): JSX.Element {
