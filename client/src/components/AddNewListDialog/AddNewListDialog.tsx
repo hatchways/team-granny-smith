@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import * as React from 'react';
+import { useState } from 'react';
 import useStyles from './useStyles';
 import Dropzone from 'react-dropzone';
 import CloseIcon from '@material-ui/icons/Close';
@@ -26,18 +26,18 @@ interface Props {
   userId: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLists: React.Dispatch<React.SetStateAction<ListInterface[]>>;
-  lists: ListInterface[];
   handleClose: () => void;
 }
 
-export default function AddNewListDialog({ open, userId, setOpen, setLists, lists, handleClose }: Props): JSX.Element {
+export default function AddNewListDialog({ open, userId, setOpen, setLists, handleClose }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
 
-  const [newListTitle, setNewListTitle] = React.useState<string>('');
-  const [newListImage, setNewListImage] = React.useState<string>('');
-  const [submitting, setSubmitting] = React.useState<boolean>(false);
-  const [titleError, setTitleError] = React.useState<string>('');
+  const [newListTitle, setNewListTitle] = useState<string>('');
+  const [newListImage, setNewListImage] = useState<string>('');
+  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [titleError, setTitleError] = useState<string>('');
+  const [uploading, setUploading] = useState<boolean>(false);
 
   const handleNewListTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTitleError('');
@@ -48,12 +48,14 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, list
     const file = files[0];
     const formData = new FormData();
     formData.append('image', file);
-
+    setUploading(true);
     try {
       const data = await uploadImage(formData);
       setNewListImage(data.imageUrl);
+      setUploading(false);
     } catch (error) {
-      console.error(error);
+      setUploading(false);
+      updateSnackBarMessage('There was a problem uploading your picture. Accepted formats are jpg and png');
     }
   };
 
@@ -77,7 +79,9 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, list
       setNewListTitle('');
       setNewListImage('');
 
-      setLists([...lists, data]);
+      setLists((current) => {
+        return [...current, data];
+      });
     } catch (error) {
       console.error(error);
       updateSnackBarMessage(error);
@@ -142,21 +146,29 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, list
                     alignItems="center"
                     className={classes.uploadBox}
                   >
-                    <Grid
-                      item
-                      className={classes.imageContainer}
-                      style={{ backgroundImage: `url(${newListImage ? newListImage : placeholderImage})` }}
-                    ></Grid>
-                    <Grid item>
-                      <Typography variant="caption">
-                        <Box fontWeight={300} textAlign="center" mb={2} mt={1} px={2}>
-                          Drop an image here or{' '}
-                          <b>
-                            <u>select a file</u>
-                          </b>
-                        </Box>
-                      </Typography>
-                    </Grid>
+                    {uploading ? (
+                      <Box m={4} p={4}>
+                        <CircularProgress />
+                      </Box>
+                    ) : (
+                      <>
+                        <Grid
+                          item
+                          className={classes.imageContainer}
+                          style={{ backgroundImage: `url(${newListImage ? newListImage : placeholderImage})` }}
+                        ></Grid>
+                        <Grid item>
+                          <Typography variant="caption">
+                            <Box fontWeight={300} textAlign="center" mb={2} mt={1} px={2}>
+                              Drop an image here or{' '}
+                              <b>
+                                <u>select a file</u>
+                              </b>
+                            </Box>
+                          </Typography>
+                        </Grid>
+                      </>
+                    )}
                   </Grid>
                 </div>
               </section>

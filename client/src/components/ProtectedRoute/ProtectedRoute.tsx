@@ -1,4 +1,4 @@
-import { CircularProgress } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
 import { useAuth } from '../../context/useAuthContext';
 
@@ -17,7 +17,11 @@ const ProtectedRoute = (props: PrivateRouteProps): JSX.Element => {
       {...rest}
       render={(props) => {
         if (isLoading) {
-          return <CircularProgress />;
+          return (
+            <Box display="flex" width="100%" height="100vh" justifyContent="center" alignItems="center">
+              <CircularProgress />
+            </Box>
+          );
         } else {
           console.log(loggedInUser);
           if (loggedInUser) {
