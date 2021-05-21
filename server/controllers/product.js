@@ -17,11 +17,14 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
   }
 });
 
-//remove a product from the collection by id parameter
-//Route DELETE /product/removeProduct/:id
+//remove a product from the collection
+//Route DELETE /product/removeProduct
 exports.removeProduct = asyncHandler(async (req, res, next) => {
   try {
-    const product = await Product.findById(req.params.id);
+    const product = await Product.findById(req.body.productId);
+    const list = await List.findById(req.body.listId);
+    await list.products.pull(product);
+    await list.save();
     await product.remove();
     res.send({ data: true });
   } catch {
@@ -43,7 +46,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 });
 
 //find the product by id parameter
-//Route GET /product/findProducts/:id
+//Route GET /product/findProduct/:id
 exports.findProduct = asyncHandler(async (req, res, next) => {
   try {
     const products = await Product.findById(req.params.id);

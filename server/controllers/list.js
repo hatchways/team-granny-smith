@@ -35,8 +35,8 @@ exports.updateList = asyncHandler(async (req, res, next) => {
 });
 
 //find the lists by userId parameter
-//Route GET /list/findLists
-exports.findLists = asyncHandler(async (req, res, next) => {
+//Route GET /list/findList
+exports.findList = asyncHandler(async (req, res, next) => {
   try {
     const lists = await List.find({ userId: req.user });
     res.send({ data: lists });
