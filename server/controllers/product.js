@@ -44,7 +44,7 @@ exports.updateProduct = asyncHandler(async (req, res, next) => {
 
 //find the product by id parameter
 //Route GET /product/findProducts/:id
-exports.findProducts = asyncHandler(async (req, res, next) => {
+exports.findProduct = asyncHandler(async (req, res, next) => {
   try {
     const products = await Product.findById(req.params.id);
     res.send({ data: products });
