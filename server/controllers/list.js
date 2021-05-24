@@ -34,11 +34,11 @@ exports.updateList = asyncHandler(async (req, res, next) => {
   }
 });
 
-//find the lists by userId parameter
+//find the lists by userId
 //Route GET /list/findList
 exports.findList = asyncHandler(async (req, res, next) => {
   try {
-    const lists = await List.find({ userId: req.user });
+    const lists = await List.find({ userId: req.user.id });
     res.send({ data: lists });
   } catch {
     res.status(404).send({ error: "List not found" });
