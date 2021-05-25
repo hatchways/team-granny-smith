@@ -1,6 +1,15 @@
-import { Box, Button, Grid } from '@material-ui/core';
+import React from 'react';
+import { Box, Button, Grid, Popover } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import useStyles from './useStyles';
+
+import { useAuth } from '../../context/useAuthContext';
+import List from '@material-ui/core/List';
+import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import LogoPic from '../../Images/logoPic.png';
 import userImage from '../../Images/userImage1.png';
@@ -11,6 +20,22 @@ export default function DashboardHeader(): JSX.Element {
   const classes = useStyles();
 
   const loggedInUser: User = { email: 'rose@gmail.com', username: 'Rose' }; //temp
+
+  const { logout } = useAuth();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const popoverOpen = Boolean(anchorEl);
+  const popoverId = popoverOpen ? 'user-popover' : undefined;
+
+  const handleLogout = () => {
+    handleClose();
+    logout();
+  };
 
   return (
     <Grid container item xs={12} direction="row" justify="center" alignItems="center" className={classes.navBar}>
@@ -37,10 +62,41 @@ export default function DashboardHeader(): JSX.Element {
         alignItems="center"
         spacing={2}
       >
-        <Grid item>
-          <img src={userImage} alt="Profile Picture" className={classes.profilePicture} />
-        </Grid>
-        <Grid item>{loggedInUser.username}</Grid>
+        <Button onClick={handleClick}>
+          <Grid item>
+            <img src={userImage} alt="Profile Picture" className={classes.profilePicture} />
+          </Grid>
+          <Grid item>{loggedInUser.username}</Grid>
+        </Button>
+        <Popover
+          id={popoverId}
+          open={popoverOpen}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <List dense={true}>
+            <ListItem button>
+              <ListItemIcon>
+                <AddPhotoAlternateIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Change Profile Photo" />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <ExitToAppIcon color="primary" />
+              </ListItemIcon>
+              <ListItemText primary="Logout" onClick={handleLogout} />
+            </ListItem>
+          </List>
+        </Popover>
       </Grid>
     </Grid>
   );
