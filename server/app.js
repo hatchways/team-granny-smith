@@ -8,6 +8,7 @@ const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const { setScrapperInterval } = require("./utils/taskQueues");
 
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
@@ -60,6 +61,8 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(notFound);
 app.use(errorHandler);
+
+setScrapperInterval("* * * * * *");
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
