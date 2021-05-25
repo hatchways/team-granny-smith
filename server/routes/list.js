@@ -12,7 +12,7 @@ router.route("/addList").post(protect, addList);
 
 router.route("/removeList/:id").delete(protect, removeList);
 
-router.route("/updateLis/:id").patch(protect, updateList);
+router.route("/updateList/:id").patch(protect, updateList);
 
 router.route("/findList").get(protect, findList);
 
