@@ -11,7 +11,6 @@ import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import Dialog from '@material-ui/core/Dialog';
-import { addList } from '../../helpers/APICalls/list';
 
 export default function Register(): JSX.Element {
   const classes = useStyles();
@@ -29,12 +28,6 @@ export default function Register(): JSX.Element {
         updateSnackBarMessage(data.error.message);
       } else if (data.success) {
         updateLoginContext(data.success);
-        const shoppingUrl = 'https://team-granny-smith-s3.s3.ca-central-1.amazonaws.com/default-images/Shopping.jpg';
-        const wishlistUrl = 'https://team-granny-smith-s3.s3.ca-central-1.amazonaws.com/default-images/Wishlist.jpg';
-        const userId = data.success.user.id;
-        console.log(userId);
-        addList('Shopping', shoppingUrl, userId);
-        addList('Wishlist', wishlistUrl, userId);
       } else {
         // should not get here from backend but this catch is for an unknown issue
         console.error({ data });

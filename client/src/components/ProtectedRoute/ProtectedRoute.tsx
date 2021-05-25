@@ -19,7 +19,6 @@ const ProtectedRoute = (props: PrivateRouteProps): JSX.Element => {
         if (isLoading) {
           return <CircularProgress />;
         } else {
-          console.log(loggedInUser);
           if (loggedInUser) {
             return <Component {...rest} {...props} />;
           } else {

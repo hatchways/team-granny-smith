@@ -4,7 +4,9 @@ const asyncHandler = require("express-async-handler");
 //add a list to the collection
 //Route POST /list/addList
 exports.addList = asyncHandler(async (req, res, next) => {
-  List.create(req.body).then(function (list) {
+  let list = req.body;
+  list.id = req.user.id;
+  List.create(list).then(function (list) {
     res.send(list);
   });
 });
