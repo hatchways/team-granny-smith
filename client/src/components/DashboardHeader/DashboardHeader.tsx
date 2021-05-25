@@ -5,7 +5,7 @@ import useStyles from './useStyles';
 
 import { useAuth } from '../../context/useAuthContext';
 import List from '@material-ui/core/List';
-import ListItem, { ListItemProps } from '@material-ui/core/ListItem';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
