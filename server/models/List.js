@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const ListSchema = new mongoose.Schema({
   name: {
@@ -13,8 +13,8 @@ const ListSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-})
+});
 
-const List = mongoose.model("lists", ListSchema)
+const List = mongoose.model("lists", ListSchema);
 
-module.exports = List
+module.exports = List;

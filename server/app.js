@@ -13,6 +13,8 @@ const { setScrapperInterval } = require("./utils/taskQueues");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const uploadRoute = require("./routes/upload");
+const listRouter = require("./routes/list");
+const productRouter = require("./routes/product");
 
 const { json, urlencoded } = express;
 
@@ -26,7 +28,7 @@ const io = socketio(server, {
   }
 });
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
   console.log("connected");
 });
 
@@ -46,6 +48,8 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/upload", uploadRoute);
+app.use("/list", listRouter);
+app.use("/product", productRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
