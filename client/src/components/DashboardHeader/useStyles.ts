@@ -19,13 +19,16 @@ const useStyles = makeStyles(() => ({
     fontWeight: 700,
   },
   profileWrapper: {
-    marginLeft: '2.5rem',
-    marginRight: '1.5rem',
+    margin: 'auto',
     width: 'auto',
+  },
+  profileButton: {
+    width: 100,
   },
   profilePicture: {
     borderRadius: '50%',
     height: '2.5rem',
+    display: 'block',
   },
 }));
 
