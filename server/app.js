@@ -28,7 +28,7 @@ const io = socketio(server, {
   }
 });
 
-io.on("connection", (socket) => {
+io.on("connection", socket => {
   console.log("connected");
 });
 
