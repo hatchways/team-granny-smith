@@ -30,7 +30,6 @@ export default function DashboardHeader(): JSX.Element {
     setAnchorEl(null);
   };
   const popoverOpen = Boolean(anchorEl);
-  const popoverId = popoverOpen ? 'user-popover' : undefined;
 
   const handleLogout = () => {
     handleClose();
@@ -56,20 +55,22 @@ export default function DashboardHeader(): JSX.Element {
       <Grid
         item
         container
-        direction="row"
         className={classes.profileWrapper}
+        direction="row"
         justify="center"
         alignItems="center"
-        spacing={2}
+        spacing={5}
       >
-        <Button onClick={handleClick}>
-          <Grid item>
+        <Button onClick={handleClick} className={classes.profileButton}>
+          <Grid item xs={12} sm={6}>
             <img src={userImage} alt="Profile Picture" className={classes.profilePicture} />
           </Grid>
-          <Grid item>{loggedInUser.username}</Grid>
+          <Grid item xs={12} sm={6}>
+            {loggedInUser.username}
+          </Grid>
         </Button>
         <Popover
-          id={popoverId}
+          id="user-popover"
           open={popoverOpen}
           anchorEl={anchorEl}
           onClose={handleClose}
