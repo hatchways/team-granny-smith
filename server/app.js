@@ -66,7 +66,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-setScrapperInterval("* * * * * *");
+setScrapperInterval("0 0 * * * *");
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
