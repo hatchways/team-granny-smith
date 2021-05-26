@@ -1,20 +1,20 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const ListSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-  },
-  products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-})
+	name: {
+		type: String,
+		required: true,
+	},
+	image: {
+		type: String,
+	},
+	products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "user",
+	},
+});
 
-const List = mongoose.model("lists", ListSchema)
+const List = mongoose.model("lists", ListSchema);
 
-module.exports = List
+module.exports = List;

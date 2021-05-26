@@ -1,0 +1,99 @@
+const Following = require("../models/Following");
+const asyncHandler = require("express-async-handler");
+const User = require("../models/User");
+const e = require("express");
+
+// @route GET /following
+// @desc get user's following list
+// @access Private
+exports.getFollowing = asyncHandler(async (req, res, next) => {
+	const followingList = await Following.find({ userId: req.user.id }, "following");
+	console.log(followingList);
+});
+
+// @route GET /following/peopleYouMightKnow
+// @desc returns a list of the peaple the user might know
+// @access Private
+exports.getPeopleYouMightKnow = asyncHandler(async (req, res, next) => {
+	const { email, password } = req.body;
+
+	const user = await User.findOne({ email });
+
+	if (user && (await user.matchPassword(password))) {
+		const token = generateToken(user._id);
+		const secondsInWeek = 604800;
+
+		res.cookie("token", token, {
+			httpOnly: true,
+			maxAge: secondsInWeek * 1000,
+		});
+
+		res.status(200).json({
+			success: {
+				user: {
+					id: user._id,
+					username: user.username,
+					email: user.email,
+				},
+			},
+		});
+	} else {
+		res.status(401);
+		throw new Error("Invalid email or password");
+	}
+});
+
+// @route POST /following/followOrUnfollow
+// @desc lets the user follow or unfollow another user based on req.body.action (It can be either follow or unfollow)
+// @access Private
+exports.followOrUnfollow = asyncHandler(async (req, res, next) => {
+	const { userIdToFollowOrUnfollow, action } = req.body;
+	const mongooseFileter = { userId: req.user.id };
+	let addedOrDeletedUser;
+	if (!userIdToFollowOrUnfollow || (action !== "follow" && action !== "unfollow")) {
+		res.status(400);
+		throw new Error("Invalid data");
+	}
+
+	let mongooseOperation = "";
+	let successMessage = "";
+
+	if (action === "follow") {
+		// if the action is follow we should add to our database so the operation would be $push
+		mongooseOperation = "$push";
+		successMessage = "User was followed successfuly";
+	} else {
+		// if the action is unfollow we should remove from our database so the operation would be $pull
+		mongooseOperation = "$pull";
+		successMessage = "User was unfollowed successfuly";
+	}
+
+	//add to or remove from the following list of the logged in user
+	await Following.updateOne(
+		mongooseFileter,
+		{ [mongooseOperation]: { following: userIdToFollowOrUnfollow } },
+		{
+			upsert: true, // Make this update into an upsert in case user doesnt exist in the model
+		}
+	);
+
+	//add or remove the logged in user from that other user's list of followers
+	await Following.updateOne(
+		{ userId: userIdToFollowOrUnfollow },
+		{ [mongooseOperation]: { followers: req.user.id } },
+		{
+			upsert: true, // Make this update into an upsert in case user doesnt exist in the model
+		}
+	);
+
+	//the addedOrDeletedUser data would be necessary for our frontend
+	addedOrDeletedUser = await User.findById(userIdToFollowOrUnfollow);
+
+	res.status(201).json({
+		message: successMessage,
+		userAddedOrDeleted: {
+			id: addedOrDeletedUser._id,
+			username: addedOrDeletedUser.username,
+		},
+	});
+});
