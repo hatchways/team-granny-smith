@@ -3,19 +3,19 @@ const mongoose = require("mongoose");
 const FollowingSchema = new mongoose.Schema({
 	userId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
+		ref: "user",
 		reqiuered: true,
 	},
 	following: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
+			ref: "user",
 		},
 	],
 	followers: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
+			ref: "user",
 		},
 	],
 });

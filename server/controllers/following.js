@@ -7,8 +7,24 @@ const e = require("express");
 // @desc get user's following list
 // @access Private
 exports.getFollowing = asyncHandler(async (req, res, next) => {
-	const followingList = await Following.find({ userId: req.user.id }, "following");
-	console.log(followingList);
+	const data = await Following.findOne(
+		{ userId: req.user.id },
+		{ _id: 0, following: 1 }
+	).populate("following", "_id username image");
+
+	//in case the user has not followed anyone yet
+	if (!data) {
+		res.status(200).json({
+			success: {
+				followingList: [],
+			},
+		});
+	}
+	res.status(200).json({
+		success: {
+			followingList: data.following,
+		},
+	});
 });
 
 // @route GET /following/peopleYouMightKnow
