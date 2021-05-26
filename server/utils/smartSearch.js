@@ -12,9 +12,8 @@ const smartSearch = (userRelations, loggedInUserId) => {
 
 	//This is a list of ids that should be excluded when we want to search all the users
 	let excludeFromSearch = [loggedInUserId];
-	console.log(userRelations);
 	if (userRelations) {
-		if (userRelation.following && userRelations.length) {
+		if (userRelations.following && userRelations.length) {
 			userRelations.following.forEach((userId) => {
 				userFollowingList[userId] = true;
 
