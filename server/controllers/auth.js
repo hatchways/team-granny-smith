@@ -1,6 +1,7 @@
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
+const List = require("../models/List");
 
 // @route POST /auth/register
 // @desc Register user
@@ -46,6 +47,19 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         }
       }
     });
+    const shoppingList = {
+      name: "Shopping",
+      image:
+        "https://team-granny-smith-s3.s3.ca-central-1.amazonaws.com/default-images/Shopping.jpg",
+      userId: user._id
+    };
+    const wishlist = {
+      name: "Wishlist",
+      image:
+        "https://team-granny-smith-s3.s3.ca-central-1.amazonaws.com/default-images/Wishlist.jpg",
+      userId: user._id
+    };
+    await List.create([shoppingList, wishlist]);
   } else {
     res.status(400);
     throw new Error("Invalid user data");

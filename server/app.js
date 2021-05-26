@@ -13,6 +13,8 @@ const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const uploadRoute = require("./routes/upload");
 const followingRoute = require("./routes/following.js");
+const listRouter = require("./routes/list");
+const productRouter = require("./routes/product");
 
 const { json, urlencoded } = express;
 
@@ -47,6 +49,8 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/upload", uploadRoute);
 app.use("/following", followingRoute);
+app.use("/list", listRouter);
+app.use("/product", productRouter);
 
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "/client/build")));

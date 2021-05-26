@@ -1,6 +1,6 @@
-const aws = require('aws-sdk');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
+const aws = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 
 //Secret keys should not be pushed to Git
 //You should add the keys to the .env file in the root directory
@@ -14,29 +14,29 @@ const s3 = new aws.S3();
 
 //checks if file is png or jpeg
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-      cb(null, true)
+  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+    cb(null, true);
   } else {
-      cb(new Error('Invalid Mime Type, only JPEG and PNG'), false);
+    cb(new Error("Invalid Mime Type, only JPEG and PNG"), false);
   }
-}
- 
+};
+
 const upload = multer({
   fileFilter: fileFilter,
   storage: multerS3({
     s3: s3,
-    bucket: 'team-granny-smith-s3/product-images',
-    acl: 'public-read',
+    bucket: "team-granny-smith-s3/product-images",
+    acl: "public-read",
     metadata: function (req, file, cb) {
-      cb(null, {fileName: file.originalname});
+      cb(null, { fileName: file.originalname });
     },
     contentType: function (req, file, cb) {
-      cb(null, file.mimetype)
+      cb(null, file.mimetype);
     },
     key: function (req, file, cb) {
-      cb(null, "img-" + Date.now().toString())
+      cb(null, "img-" + Date.now().toString());
     }
   })
-})
+});
 
 module.exports = upload;
