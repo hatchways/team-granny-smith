@@ -59,8 +59,7 @@ exports.registerUser = asyncHandler(async (req, res, next) => {
         "https://team-granny-smith-s3.s3.ca-central-1.amazonaws.com/default-images/Wishlist.jpg",
       userId: user._id
     };
-    await List.create(shoppingList);
-    await List.create(wishlist);
+    await List.create([shoppingList, wishlist]);
   } else {
     res.status(400);
     throw new Error("Invalid user data");
