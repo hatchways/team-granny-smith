@@ -28,7 +28,7 @@ export default function Dashboard(): JSX.Element {
   }
 
   useEffect(() => {
-    getUserLists(loggedInUser.id)
+    getUserLists()
       .then((response) => {
         setLists(response.data);
       })

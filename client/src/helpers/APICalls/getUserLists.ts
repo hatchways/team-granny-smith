@@ -6,8 +6,8 @@ export interface ListInterface {
   image?: string;
 }
 
-const getUserLists = async (userId: string): Promise<{ data: ListInterface[] }> => {
-  return await fetch(`/list/findLists/${userId}`, {
+const getUserLists = async (): Promise<{ data: ListInterface[] }> => {
+  return await fetch(`/list/findList`, {
     method: 'Get',
     credentials: 'include',
   })
