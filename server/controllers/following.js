@@ -1,7 +1,7 @@
 const Following = require("../models/Following");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/User");
-const e = require("express");
+const smartSearch = require("../utils/smartSearch");
 
 // @route GET /following
 // @desc get user's following list
@@ -31,32 +31,31 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
 // @desc returns a list of the peaple the user might know
 // @access Private
 exports.getPeopleYouMightKnow = asyncHandler(async (req, res, next) => {
-	const { email, password } = req.body;
+	const userRelations = await Following.findOne({ userId: req.user.id }).populate(
+		"followers",
+		"_id username image"
+	);
 
-	const user = await User.findOne({ email });
+	// returns the users that follow the user but the user does not follow back and
+	// a list of users that should be excluded from our broader search
+	const { excludeFromSearch, noFollowBack } = smartSearch(userRelations, req.user.id);
 
-	if (user && (await user.matchPassword(password))) {
-		const token = generateToken(user._id);
-		const secondsInWeek = 604800;
-
-		res.cookie("token", token, {
-			httpOnly: true,
-			maxAge: secondsInWeek * 1000,
-		});
-
-		res.status(200).json({
-			success: {
-				user: {
-					id: user._id,
-					username: user.username,
-					email: user.email,
-				},
+	//returns the users that their id does not exist in the excludedFromSearch list
+	const searchResult = await User.find(
+		{
+			_id: {
+				$nin: excludeFromSearch,
 			},
-		});
-	} else {
-		res.status(401);
-		throw new Error("Invalid email or password");
-	}
+		},
+		"_id username image"
+	);
+
+	//In the final result the people who follow the user but the user
+	//does not follow back will be at the top of the list, which leads to
+	//an smarter result for the people you might know section of the app
+	const finalResponse = [...noFollowBack, ...searchResult];
+
+	res.json(finalResponse);
 });
 
 // @route POST /following/followOrUnfollow
