@@ -23,7 +23,6 @@ const ProtectedRoute = (props: PrivateRouteProps): JSX.Element => {
             </Box>
           );
         } else {
-          console.log(loggedInUser);
           if (loggedInUser) {
             return <Component {...rest} {...props} />;
           } else {
