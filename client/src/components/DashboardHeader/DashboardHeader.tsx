@@ -14,12 +14,12 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LogoPic from '../../Images/logoPic.png';
 import userImage from '../../Images/userImage1.png';
 
-import { User } from '../../interface/User'; //temp
-
 export default function DashboardHeader(): JSX.Element {
   const classes = useStyles();
 
-  const loggedInUser: User = { email: 'rose@gmail.com', username: 'Rose' }; //temp
+  const loggedInUser = useAuth().loggedInUser;
+
+  if (loggedInUser === undefined || !loggedInUser) return <CircularProgress />;
 
   const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);

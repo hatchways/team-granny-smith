@@ -3,16 +3,16 @@ const mongoose = require("mongoose");
 const ListSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: true
   },
   image: {
-    type: String,
+    type: String
   },
   products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+    ref: "User"
+  }
 });
 
 const List = mongoose.model("lists", ListSchema);
