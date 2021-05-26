@@ -1,10 +1,9 @@
 const puppeteer = require("puppeteer");
-const Product = require("../models/Product");
 
-const scrapingAmazon = async url => {
+const scrapingAmazon = async (url) => {
   if (!url) return null;
 
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
   page.setUserAgent(
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
@@ -27,11 +26,7 @@ const scrapingAmazon = async url => {
       return { title, price, imageUrl };
     });
     await browser.close();
-    return new Product({
-      name: title,
-      price: price,
-      imageUrl: imageUrl
-    });
+    return { title, price, imageUrl };
   } catch (err) {
     console.error(err);
     await browser.close();

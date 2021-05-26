@@ -28,7 +28,7 @@ const io = socketio(server, {
   }
 });
 
-io.on("connection", socket => {
+io.on("connection", (socket) => {
   console.log("connected");
 });
 
@@ -66,7 +66,10 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-setScrapperInterval("0 0 * * * *");
+// Set Amazon/Ebay/Craigslist scrapper interval
+// Cron expression is in the order of "seconds minute hour dayOfMonth dayOfWeek"
+// Current setting is once a day at 12:00 AM.
+setScrapperInterval("0 0 0 * * *");
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
