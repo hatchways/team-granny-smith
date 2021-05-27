@@ -36,7 +36,7 @@ const scrapingCraigslist = async (url) => {
 	const browser = await puppeteer.launch();
 	const page = await browser.newPage();
 	page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36");
-	// Go to Amazon Product page
+	// Go to Craigslist Product page
 	try {
 		await page.goto(url, {
 			waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
@@ -46,8 +46,8 @@ const scrapingCraigslist = async (url) => {
 
 		// Extract information from page
 		const { title, price, imageUrl } = await page.evaluate(() => {
-			const title = document.querySelector(".price").innerText;
-			const price = document.getElementById("titletextonly").innerText;
+			const price = document.querySelector(".price").innerText;
+			const title = document.getElementById("titletextonly").innerText;
 			const imageUrl = document.querySelector(".swipe img").getAttribute("src");
 			return { title, price, imageUrl };
 		});
