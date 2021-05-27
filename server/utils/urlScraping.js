@@ -1,5 +1,4 @@
 const puppeteer = require("puppeteer");
-const Product = require("../models/Product");
 
 const scrapingAmazon = async (url) => {
   if (!url) return null;
@@ -12,7 +11,7 @@ const scrapingAmazon = async (url) => {
   // Go to Amazon Product page
   try {
     await page.goto(url, {
-      waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
+      waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"]
     });
     await page.waitForSelector("#productTitle");
     await page.waitForSelector("#priceblock_ourprice");
@@ -26,21 +25,13 @@ const scrapingAmazon = async (url) => {
         .getAttribute("src");
       return { title, price, imageUrl };
     });
+    await browser.close();
+    return { title, price, imageUrl };
   } catch (err) {
     console.error(err);
+    await browser.close();
     return null;
   }
-
-  // Create object for return
-  const product = new Product({
-    title,
-    price,
-    imageUrl,
-  });
-
-  await browser.close();
-
-  return product;
 };
 
 module.exports = { scrapingAmazon };
