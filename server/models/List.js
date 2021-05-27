@@ -11,7 +11,7 @@ const ListSchema = new mongoose.Schema({
 	products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
 	userId: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "User",
+		ref: "user",
 	},
 });
 
