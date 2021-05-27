@@ -1,10 +1,11 @@
 import { Box, Button, Grid, MenuItem, Select, Typography } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import React, { useState } from 'react';
+import { ListInterface } from '../../helpers/APICalls/getUserLists';
 import useStyles from './useStyles';
 
 interface Props {
-  lists: string[];
+  lists: ListInterface[];
 }
 
 export default function AddNewItem({ lists }: Props): JSX.Element {
@@ -34,9 +35,9 @@ export default function AddNewItem({ lists }: Props): JSX.Element {
           <MenuItem value="" disabled>
             Select list
           </MenuItem>
-          {lists.map((item: string, index: number) => (
-            <MenuItem key={index} value={item}>
-              {item}
+          {lists.map((item, index) => (
+            <MenuItem key={index} value={item.name}>
+              {item.name}
             </MenuItem>
           ))}
         </Select>
