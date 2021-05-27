@@ -27,7 +27,7 @@ exports.getFollowing = asyncHandler(async (req, res, next) => {
 	});
 });
 
-// @route GET /following/peopleYouMightKnow
+// @route GET /following/suggestions
 // @desc returns a list of the peaple the user might know
 // @access Private
 exports.getPeopleYouMightKnow = asyncHandler(async (req, res, next) => {
@@ -58,7 +58,7 @@ exports.getPeopleYouMightKnow = asyncHandler(async (req, res, next) => {
 	res.json(finalResponse);
 });
 
-// @route POST /following/followOrUnfollow
+// @route POST /following/follow
 // @desc lets the user follow or unfollow another user based on req.body.action (It can be either follow or unfollow)
 // @access Private
 exports.followOrUnfollow = asyncHandler(async (req, res, next) => {

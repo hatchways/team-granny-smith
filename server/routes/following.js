@@ -8,7 +8,7 @@ const {
 } = require("../controllers/following");
 
 router.route("/").get(protect, getFollowing);
-router.route("/peopleYouMightKnow").get(protect, getPeopleYouMightKnow);
-router.route("/followOrUnfollow").post(protect, followOrUnfollow);
+router.route("/suggestions").get(protect, getPeopleYouMightKnow);
+router.route("/follow").post(protect, followOrUnfollow);
 
 module.exports = router;

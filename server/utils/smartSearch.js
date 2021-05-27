@@ -5,13 +5,13 @@
 
 const smartSearch = (userRelations, loggedInUserId) => {
 	//this object is created to make the code more efficient in terms of time complexity
-	let userFollowingList = {};
+	const userFollowingList = {};
 
 	//this is a list of people that follow the user but the user does not follow back
-	let noFollowBack = [];
+	const noFollowBack = [];
 
 	//This is a list of ids that should be excluded when we want to search all the users
-	let excludeFromSearch = [loggedInUserId];
+	const excludeFromSearch = [loggedInUserId];
 	if (userRelations) {
 		if (userRelations.following && userRelations.length) {
 			userRelations.following.forEach((userId) => {
