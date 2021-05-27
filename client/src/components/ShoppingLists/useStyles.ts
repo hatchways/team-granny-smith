@@ -2,9 +2,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '90%',
+    width: 'auto',
     maxWidth: '75rem',
-    margin: '2rem 0rem',
+    margin: '2rem',
   },
   addNewListContainer: {
     cursor: 'pointer',
