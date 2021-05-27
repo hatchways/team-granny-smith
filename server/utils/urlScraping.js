@@ -15,7 +15,6 @@ const scrapingAmazon = async (url) => {
       waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
     });
     await page.waitForSelector("#productTitle");
-    await page.waitForSelector("#priceblock_ourprice");
 
     // Extract information from page
     const { title, price, imageUrl } = await page.evaluate(() => {
@@ -41,16 +40,9 @@ const scrapingAmazon = async (url) => {
     return null;
   }
 
-  // Create object for return
-  const product = new Product({
-    title,
-    price,
-    imageUrl,
-  });
-
   await browser.close();
 
-  return product;
+  return { title, price, imageUrl };
 };
 
 module.exports = { scrapingAmazon };
