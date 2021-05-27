@@ -8,7 +8,7 @@ const connectDB = require("./db");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const { setScrapperInterval } = require("./utils/taskQueues");
+const { setScraperInterval } = require("./utils/taskQueues");
 
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
@@ -66,10 +66,10 @@ if (process.env.NODE_ENV === "production") {
 app.use(notFound);
 app.use(errorHandler);
 
-// Set Amazon/Ebay/Craigslist scrapper interval
+// Set Amazon/Ebay/Craigslist scraper interval
 // Cron expression is in the order of "seconds minute hour dayOfMonth dayOfWeek"
 // Current setting is once a day at 12:00 AM.
-setScrapperInterval("0 0 0 * * *");
+setScraperInterval("0 0 0 * * *");
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
