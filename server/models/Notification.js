@@ -17,8 +17,8 @@ const priceDropSchema = new Schema({
   },
 });
 
-const PriceDrop = model("Product", priceDropSchema);
+const PriceDropNotification = model("Product", priceDropSchema);
 
 module.exports = {
-  PriceDrop,
+  PriceDropNotification,
 };
