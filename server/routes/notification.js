@@ -9,12 +9,12 @@ const {
 } = require("../controllers/notification");
 
 
-router.route("/").post(protect, createNotification);
+router.route("/:userId").post(protect, createNotification);
 
 router.route("/:id").put(protect, markAsReadNotification);
 
-router.route("/unread").get(protect, getUnreadNotification);
+router.route("/unread/:userId").get(protect, getUnreadNotification);
 
-router.route('/').get(protect, getAllNotification);
+router.route('/:userId').get(protect, getAllNotification);
 
 module.exports = router;
