@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     margin: '2rem',
   },
@@ -30,6 +30,19 @@ const useStyles = makeStyles(() => ({
   addBtn: {
     margin: '.5rem',
     width: '7rem',
+  },
+  productName: {
+    fontSize: '20px',
+  },
+  productPrice: {
+    fontSize: '20px',
+  },
+  dialogActions: {
+    paddingBottom: '20px',
+    paddingRight: '20px',
+  },
+  loadingProgress: {
+    color: 'white',
   },
 }));
 

@@ -1,10 +1,23 @@
-import { Box, Button, Grid, MenuItem, Select, Typography, Modal, CircularProgress } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Grid,
+  MenuItem,
+  Select,
+  Typography,
+  Modal,
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+} from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import React, { useState } from 'react';
 import { ListInterface } from '../../helpers/APICalls/getUserLists';
 import useStyles from './useStyles';
 import { ProductInterface, createNewProduct } from '../../helpers/APICalls/product';
-import { ConfirmNewItem } from '../ConfirmNewItem/ConfirmNewItem';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps, Color } from '@material-ui/lab/Alert';
 
@@ -118,11 +131,29 @@ export default function AddNewItem({ lists }: Props): JSX.Element {
           ))}
         </Select>
         <Button variant="contained" color="primary" className={classes.addBtn} onClick={handleOpen}>
-          {isLoading ? <CircularProgress size={20} style={{ color: 'white' }} /> : 'ADD'}
+          {isLoading ? <CircularProgress size={20} className={classes.loadingProgress} /> : 'ADD'}
         </Button>
       </form>
-      <Modal open={openNewItemModal} onClose={handleClose}>
-        <ConfirmNewItem name={product.name} price={product.price} imageUrl={product.imageUrl} />
+      <Modal open={openNewItemModal}>
+        <Dialog open={openNewItemModal}>
+          <DialogTitle className={classes.productName}>
+            <Box fontWeight={700}>{product.name}</Box>
+          </DialogTitle>
+          <DialogContent>
+            <Grid container justify="center" alignItems="center" direction="column">
+              <img
+                src={product.imageUrl}
+                alt="https://team-granny-smith-s3.s3.ca-central-1.amazonaws.com/default-images/no-image.jpg"
+              />
+            </Grid>
+            <DialogContentText className={classes.productPrice}>Price: {product.price}</DialogContentText>
+          </DialogContent>
+          <DialogActions className={classes.dialogActions}>
+            <Button onClick={handleClose} color="primary" variant="contained">
+              CONFIRM
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Modal>
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
