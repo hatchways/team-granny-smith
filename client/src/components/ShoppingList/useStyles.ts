@@ -17,6 +17,9 @@ const useStyles = makeStyles(() => ({
     backgroundSize: 'cover',
     borderRadius: '10px 10px 0px 0px',
   },
+  titleContainer: {
+    margin: '.5rem 0',
+  },
 }));
 
 export default useStyles;

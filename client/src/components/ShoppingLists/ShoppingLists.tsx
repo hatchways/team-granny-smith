@@ -5,7 +5,7 @@ import ShoppingList from '../../components/ShoppingList/ShoppingList';
 import AddIcon from '@material-ui/icons/Add';
 
 import AddNewListDialog from '../../components/AddNewListDialog/AddNewListDialog';
-import { ListInterface } from '../../helpers/APICalls/getUserLists';
+import { ListInterface } from '../../interface/List';
 
 interface Props {
   userId: string;
@@ -35,7 +35,13 @@ export default function ShoppingLists({ userId, lists, setLists }: Props): JSX.E
         {lists.length > 0 &&
           lists.map((list: ListInterface) => {
             return (
-              <ShoppingList key={list._id} title={list.name} image={list.image} numberOfItems={list.products.length} />
+              <ShoppingList
+                key={list._id}
+                title={list.name}
+                image={list.image}
+                numberOfItems={list.products.length}
+                isPrivate={list.isPrivate}
+              />
             );
           })}
         <Grid

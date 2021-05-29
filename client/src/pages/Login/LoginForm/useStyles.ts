@@ -41,7 +41,13 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   demoButton: {
+    margin: theme.spacing(1, 2, 2, 2),
+    padding: 10,
+    width: 160,
+    height: 56,
     borderRadius: '25px',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   circularProgress: {
     color: 'white',

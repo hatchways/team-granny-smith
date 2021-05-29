@@ -1,7 +1,7 @@
 import { Box, Button, Grid, MenuItem, Select, Typography } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import React, { useState } from 'react';
-import { ListInterface } from '../../helpers/APICalls/getUserLists';
+import { ListInterface } from '../../interface/List';
 import useStyles from './useStyles';
 
 interface Props {
