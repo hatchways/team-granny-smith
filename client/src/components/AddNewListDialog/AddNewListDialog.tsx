@@ -40,7 +40,7 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, hand
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [titleError, setTitleError] = useState<string>('');
   const [uploading, setUploading] = useState<boolean>(false);
-  const [isPrivate, setIsPrivate] = useState<boolean>(true);
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const handleNewListTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTitleError('');

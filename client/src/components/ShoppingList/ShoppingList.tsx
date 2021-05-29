@@ -24,12 +24,12 @@ export default function ShoppingList({ title, image, isPrivate, numberOfItems }:
         style={{ backgroundImage: `url(${image ? image : placeholderImage})` }}
       ></Grid>
       <Grid item container direction="row" justify="center" alignItems="center" className={classes.titleContainer}>
-        <Typography variant="subtitle1">
+        <Typography>
           <Box fontWeight={700} mr={1}>
             {title}
           </Box>
         </Typography>
-        <VisibilityIcon />
+        {isPrivate ? <VisibilityOffIcon /> : <VisibilityIcon />}
       </Grid>
       <Grid item>
         <Typography variant="subtitle2">

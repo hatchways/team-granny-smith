@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: '10px 10px 0px 0px',
   },
   titleContainer: {
-    margin: '.5rem 0',
+    margin: '1rem 0 0 0',
   },
 }));
 
