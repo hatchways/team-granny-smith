@@ -10,6 +10,8 @@ import {
   FormControlLabel,
   FormHelperText,
   Grid,
+  MenuItem,
+  Select,
   Slide,
   TextField,
   Typography,
@@ -36,47 +38,26 @@ interface Props {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLists: React.Dispatch<React.SetStateAction<ListInterface[]>>;
   list: ListInterface;
+  lists: ListInterface[];
   handleClose: () => void;
 }
 
-export default function ListDetailDialog({ open, setOpen, setLists, list, handleClose }: Props): JSX.Element {
+export default function ListDetailDialog({ open, setOpen, setLists, list, lists, handleClose }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
   const [showProducts, setShowProducts] = useState(true);
   const [showAddNewItem, setShowAddNewItem] = useState(false);
   const [listState, setListState] = useState<ListInterface>(list);
-  // This will launch only if propName value has chaged.
+  const [newItemUrl, setNewItemUrl] = useState('');
+  const [urlError, setUrlError] = useState<string>('');
 
-  const [newListTitle, setNewListTitle] = useState<string>('');
-  const [newListImage, setNewListImage] = useState<string>('');
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [titleError, setTitleError] = useState<string>('');
   const [uploading, setUploading] = useState<boolean>(false);
-  const [isPrivate, setIsPrivate] = useState<boolean>(true);
 
-  //   const handleNewListTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-  //     setTitleError('');
-  //     setNewListTitle(event.target.value as string);
-  //   };
-
-  //   const handlePrivacyChange = () => {
-  //     setIsPrivate(!isPrivate);
-  //   };
-
-  //   const handleUpload = async (files: File[]) => {
-  //     const file = files[0];
-  //     const formData = new FormData();
-  //     formData.append('image', file);
-  //     setUploading(true);
-  //     try {
-  //       const data = await uploadImage(formData);
-  //       setNewListImage(data.imageUrl);
-  //       setUploading(false);
-  //     } catch (error) {
-  //       setUploading(false);
-  //       updateSnackBarMessage('There was a problem uploading your picture. Accepted formats are jpg and png');
-  //     }
-  //   };
+  const handleNewItemUrlChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setUrlError('');
+    setNewItemUrl(event.target.value as string);
+  };
 
   //   const handleSubmit = async () => {
   //     if (!newListTitle) {
@@ -199,48 +180,77 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, handle
         timeout={{ appear: 800, enter: 800, exit: 300 }}
       >
         <Grid>
-          {' '}
-          <Grid container justify="center" direction="column">
-            <Grid
-              item
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-              className={classes.titleContainer}
-            >
-              <Typography variant="h5">
-                <Box fontWeight={700} mr={1}>
-                  {'sdfkjdsahdfksj'}
-                </Box>
-              </Typography>
-              {list.isPrivate ? <VisibilityOffIcon /> : <VisibilityIcon />}
-            </Grid>
-            <Grid item container justify="center">
-              <Box fontWeight={300} mb={2}>
-                <Typography color="textSecondary" variant="subtitle2">
-                  {list.products.length} items
-                </Typography>
+          <Grid>
+            {' '}
+            <Box ml={'auto'} textAlign={'right'} m={2}>
+              <CloseIcon className={classes.closeIcon} onClick={handleClose} />
+            </Box>
+            <Typography variant="h5">
+              <Box fontWeight={700} textAlign="center" m={2}>
+                Add new item:{' '}
               </Box>
-            </Grid>
+            </Typography>
           </Grid>
           <DialogContent className={classes.dialogContent}>
-            {[...new Array(50)]
-              .map(
-                () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-              )
-              .join('\n')}
-          </DialogContent>
-          <DialogActions>
-            <Grid container justify="center">
-              <Button onClick={handleAddNewItem} color="primary">
-                ADD NEW ITEM
+            <Grid container direction="column" justify="center" alignItems="center">
+              <form className={classes.form}>
+                <FormHelperText className={classes.label}>
+                  Paste link to item: <span className={classes.required}>*</span>
+                </FormHelperText>
+                <TextField
+                  id="url"
+                  fullWidth
+                  margin="normal"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  InputProps={{
+                    classes: { input: classes.inputs },
+                    disableUnderline: true,
+                  }}
+                  helperText={urlError ? urlError : ''}
+                  name="title"
+                  placeholder="Enter name"
+                  value={newItemUrl}
+                  onChange={handleNewItemUrlChange}
+                />{' '}
+              </form>
+              <Grid item>
+                <Typography variant="subtitle1">
+                  <Box fontWeight={700} textAlign="center" mt={3}>
+                    Select List
+                  </Box>
+                </Typography>
+              </Grid>
+              <Select
+                value={list._id as string}
+                onChange={handleSelectedListChange}
+                disableUnderline
+                displayEmpty
+                className={classes.select}
+                inputProps={{ 'aria-label': 'Without label' }}
+              >
+                <MenuItem value="" disabled>
+                  Select list
+                </MenuItem>
+                {lists.map((item, index) => (
+                  <MenuItem key={index} value={item._id}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
+
+              <Button
+                endIcon={submitting ? <CircularProgress className={classes.buttonSpinner} /> : undefined}
+                onClick={handleSubmit}
+                color="primary"
+                variant="contained"
+                className={classes.createButton}
+              >
+                CREATE LIST
               </Button>
             </Grid>
-          </DialogActions>
+          </DialogContent>
         </Grid>
       </Slide>
     </Dialog>

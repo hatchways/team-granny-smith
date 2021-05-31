@@ -85,6 +85,12 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '50px',
     margin: '1.5rem 0',
   },
+  select: {
+    padding: '.8rem .5rem .8rem 1.5rem',
+    border: 'none',
+    marginRight: '1rem',
+    borderLeft: '2px solid  #f3f3f3',
+  },
   titleContainer: {},
 }));
 

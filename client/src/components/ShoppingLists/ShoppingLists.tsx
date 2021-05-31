@@ -92,6 +92,7 @@ export default function ShoppingLists({ userId, lists, setLists }: Props): JSX.E
           setLists={setLists}
           handleClose={handleListDetailClose}
           list={selectedList}
+          lists={lists}
         />
       )}
     </Grid>
