@@ -4,7 +4,7 @@ const Product = require("../models/Product");
 const chooseScraper = require("./chooseScraper");
 
 // Pass a cron value i.e. "* * * * * *" for every second. NOTE: node-schedule has 6 values as opposed to the normal 5, first value denoting seconds.
-async function setScrapperInterval(cron) {
+async function setScraperInterval(cron) {
 	schedule.scheduleJob(cron, async () => {
 		const cursor = Product.find().cursor();
 		for (let doc = await cursor.next(); doc != null; doc = await cursor.next()) {
@@ -21,10 +21,10 @@ async function setScrapperInterval(cron) {
 					updated = null;
 					break;
 			}
-			if (updated != null) {
+			if (updated != null && update.price !== doc.price) {
 				doc.name = updated.title;
 				doc.imageUrl = updated.imageUrl;
-				doc.price = updated.price;
+				doc.salePrice = updated.price;
 			}
 			doc.save();
 		}

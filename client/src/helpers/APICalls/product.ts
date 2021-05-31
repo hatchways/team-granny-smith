@@ -23,4 +23,21 @@ const createNewProduct = async (url: string, listId: string): Promise<ProductInt
     });
 };
 
-export { createNewProduct };
+const deleteProduct = async (productId: string, listId: string): Promise<{ data: string }> => {
+  return await fetch('/product/removeProduct', {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ productId, listId }),
+    credentials: 'include',
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch(() => {
+      error: {
+        message: 'Unable to connect to server. Please try again';
+      }
+    });
+};
+
+export { createNewProduct, deleteProduct };
