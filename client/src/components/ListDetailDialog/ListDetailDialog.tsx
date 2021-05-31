@@ -176,7 +176,9 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, handle
               })
             ) : (
               <Box textAlign="center" height="100%" display="flex" justifyContent="center" alignItems="center">
-                <Typography variant="subtitle2">{'There are no items in this list'}</Typography>
+                <Typography variant="subtitle2">
+                  {'There are no items in this list. Please add new items by pressing the button below.'}
+                </Typography>
               </Box>
             )}
           </DialogContent>
