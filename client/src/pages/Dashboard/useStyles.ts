@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
       borderBottom: '1.2px solid rgba(0, 0, 0, 0.2)',
     },
   },
-  dashboard: { backgroundColor: '#fbfcff' },
+  dashboard: { backgroundColor: '#fbfcff', overflow: 'hidden' },
   drawerWrapper: {
     width: drawerWidth,
     [theme.breakpoints.up('md')]: {

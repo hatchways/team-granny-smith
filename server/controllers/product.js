@@ -1,16 +1,24 @@
 const Product = require("../models/Product");
 const asyncHandler = require("express-async-handler");
 const List = require("../models/List");
+const { scrapeUrl } = require("../utils/urlScraping");
 
 //add a product to the collection
 //Route POST /product/addProduct/:id
 exports.addProduct = asyncHandler(async (req, res, next) => {
   try {
-    const list = await List.findById(req.params.id);
-    Product.create(req.body).then(function (product) {
-      list.products.push(product);
-      list.save();
-      res.send(product);
+    const list = await List.findById(req.body.id);
+    scrapeUrl(req.body.url).then(function (scrapeData) {
+      Product.create({
+        name: scrapeData.title,
+        price: scrapeData.price,
+        imageUrl: scrapeData.imageUrl,
+        url: req.body.url,
+      }).then(function (product) {
+        list.products.push(product);
+        list.save();
+        res.send(product);
+      });
     });
   } catch {
     res.status(404).send({ error: "List not found" });
