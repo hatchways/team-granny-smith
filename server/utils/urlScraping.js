@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const chooseScraper = require("./chooseScraper");
 
 const scrapingAmazon = async (url) => {
 	if (!url) return null;
@@ -60,27 +61,26 @@ const scrapingCraigslist = async (url) => {
 	}
 };
 
-module.exports = { scrapingAmazon, scrapingCraigslist };
 const scrapeUrl = async (url) => {
 	if (!url) return null;
-
+	const scrapper = chooseScraper(url);
 	// Set element IDs to use for selectors
 	let title = "";
 	let price = "";
 	let imageUrl = "";
-	switch (url) {
-		case 0:
-			url.includes("www.amazon.");
+	switch (scrapper) {
+		case "amazon":
 			title = "productTitle";
 			price = "priceblock_ourprice";
 			imageUrl = "landingImage";
 			break;
-		case 1:
-			url.includes("www.ebay.");
+		case "ebay":
 			title = "itemTitle";
 			price = "prcIsum";
 			imageUrl = "icImg";
 			break;
+		case "craigslist":
+			return scrapingCraigslist(url);
 	}
 
 	const browser = await puppeteer.launch({ headless: false });
