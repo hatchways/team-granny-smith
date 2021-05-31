@@ -1,19 +1,19 @@
 const Product = require("../models/Product");
 const asyncHandler = require("express-async-handler");
 const List = require("../models/List");
-const { scrapingAmazon } = require("../utils/urlScraping");
+const { scrapeUrl } = require("../utils/urlScraping");
 
 //add a product to the collection
 //Route POST /product/addProduct/:id
 exports.addProduct = asyncHandler(async (req, res, next) => {
   try {
     const list = await List.findById(req.body.id);
-    scrapingAmazon(req.body.url).then(function (scrapeData) {
+    scrapeUrl(req.body.url).then(function (scrapeData) {
       Product.create({
         name: scrapeData.title,
         price: scrapeData.price,
         imageUrl: scrapeData.imageUrl,
-        url: req.body.url
+        url: req.body.url,
       }).then(function (product) {
         list.products.push(product);
         list.save();
