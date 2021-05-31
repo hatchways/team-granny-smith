@@ -53,7 +53,7 @@ export default function Login(): JSX.Element {
               </Grid>
               <LoginForm handleSubmit={handleSubmit} />
             </Box>
-            <AuthHeader linkTo="/dashboard" asideText="Don't have an account?" linkText="Create an account" />
+            <AuthHeader linkTo="/signup" asideText="Don't have an account?" linkText="Create an account" />
           </Box>
         </Grid>
       </Grid>
