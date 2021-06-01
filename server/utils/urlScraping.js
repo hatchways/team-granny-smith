@@ -80,10 +80,11 @@ const scrapeUrl = async (url) => {
   let imageUrl = "";
   switch (scraper) {
     case "amazon":
-      scrapingAmazon(url);
+      return scrapingAmazon(url);
       break;
     case "craigslist":
       return scrapingCraigslist(url);
+      break;
   }
 };
 
