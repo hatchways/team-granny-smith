@@ -11,11 +11,18 @@ import AuthHeader from '../../components/AuthHeader/AuthHeader';
 import { useAuth } from '../../context/useAuthContext';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import Dialog from '@material-ui/core/Dialog';
+import { useSocket } from '../../context/useSocketContext';
+import { useEffect } from 'react';
 
 export default function Login(): JSX.Element {
   const classes = useStyles();
   const { updateLoginContext } = useAuth();
   const { updateSnackBarMessage } = useSnackBar();
+  const { initSocket } = useSocket();
+
+  useEffect(() => {
+    initSocket();
+  }, []);
 
   const handleSubmit = (
     { email, password }: { email: string; password: string },
