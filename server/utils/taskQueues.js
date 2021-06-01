@@ -1,7 +1,6 @@
 const schedule = require("node-schedule");
 const { scrapeUrl } = require("./urlScraping");
 const Product = require("../models/Product");
-const chooseScraper = require("./chooseScraper");
 
 // Pass a cron value i.e. "* * * * * *" for every second. NOTE: node-schedule has 6 values as opposed to the normal 5, first value denoting seconds.
 async function setScraperInterval(cron) {

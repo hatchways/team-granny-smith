@@ -17,6 +17,8 @@ const notificationRoute = require("./routes/notification");
 const followingRoute = require("./routes/following.js");
 const listRouter = require("./routes/list");
 const productRouter = require("./routes/product");
+const { ConnectContactLens } = require("aws-sdk");
+const { connected } = require("process");
 
 
 const { json, urlencoded } = express;
@@ -31,8 +33,22 @@ const io = socketio(server, {
   },
 });
 
+// Web Client starts a websocket connection. Each one is saved in connectedUsers list
+let connectedUsers = {};
 io.on("connection", (socket) => {
-  console.log("connected");
+  connectedUsers[socket.id] = null;
+  // When the user Logs In, the connection is associated with the username
+  socket.on("login", (data) => {
+    connectedUsers[socket.id] = data.username;
+  });
+  // When the user Logs Out, the connection disassociates username
+  socket.on("logout", (data) => {
+    connectedUsers[socket.id] = null;
+  });
+  // When connection closes, it is retired from list
+  socket.on("disconnect", (reason) => {
+    delete connectedUsers[socket.id];
+  });
 });
 
 if (process.env.NODE_ENV === "development") {
@@ -74,7 +90,7 @@ app.use(errorHandler);
 // Set Amazon/Ebay/Craigslist scraper interval
 // Cron expression is in the order of "seconds minute hour dayOfMonth dayOfWeek"
 // Current setting is once a day at 12:00 AM.
-setScraperInterval("0 0 0 * * *");
+setScraperInterval("0 0 * * * *");
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
