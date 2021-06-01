@@ -17,6 +17,7 @@ const followingRoute = require("./routes/following.js");
 const listRouter = require("./routes/list");
 const productRouter = require("./routes/product");
 const { ConnectContactLens } = require("aws-sdk");
+const { connected } = require("process");
 
 const { json, urlencoded } = express;
 
@@ -30,16 +31,21 @@ const io = socketio(server, {
 	},
 });
 
-let usersCount=0;
+let connectedUsers = {}
 io.on("connection", (socket) => {
-    usersCount ++;
     console.log("Socket connected:",socket.id);
-	console.log("Users connected:", usersCount);
-
+	socket.on('login', data => {
+		connectedUsers[socket.id] = data.username
+		console.log(connectedUsers)
+	})
+	socket.on('logout', data => {
+		connectedUsers[socket.id] = null;
+		console.log(connectedUsers)
+	})
 	socket.on("disconnect", (reason) => {
-        usersCount--;
 		console.log("Socket disconnected. Reason:", reason )
-		console.log("Users connected:", usersCount);
+		delete connectedUsers[socket.id]
+		console.log(connectedUsers)
 	})}
 );
 

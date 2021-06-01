@@ -19,15 +19,13 @@ import { useSocket } from '../../context/useSocketContext';
 export default function DashboardHeader(): JSX.Element {
   const classes = useStyles();
 
-  const { initSocket } = useSocket();
+  const { socket, initSocket } = useSocket();
   const loggedInUser = useAuth().loggedInUser;
 
   if (loggedInUser === undefined || !loggedInUser) return <CircularProgress />;
 
   useEffect(() => {
-    if (loggedInUser) {
-      initSocket();
-    }
+    socket?.emit('login', { username: loggedInUser.username });
   }, [loggedInUser]);
 
   const { logout } = useAuth();
@@ -41,6 +39,7 @@ export default function DashboardHeader(): JSX.Element {
   const popoverOpen = Boolean(anchorEl);
 
   const handleLogout = () => {
+    socket?.emit('logout', { username: loggedInUser.username });
     handleClose();
     logout();
   };
