@@ -34,24 +34,18 @@ const io = socketio(server, {
 // Web Client starts a websocket connection. Each one is saved in connectedUsers list
 let connectedUsers = {};
 io.on("connection", (socket) => {
-  console.log("Socket connected:", socket.id);
   connectedUsers[socket.id] = null;
-  console.log(connectedUsers);
   // When the user Logs In, the connection is associated with the username
   socket.on("login", (data) => {
     connectedUsers[socket.id] = data.username;
-    console.log(connectedUsers);
   });
   // When the user Logs Out, the connection disassociates username
   socket.on("logout", (data) => {
     connectedUsers[socket.id] = null;
-    console.log(connectedUsers);
   });
   // When connection closes, it is retired from list
   socket.on("disconnect", (reason) => {
-    console.log("Socket disconnected. Reason:", reason);
     delete connectedUsers[socket.id];
-    console.log(connectedUsers);
   });
 });
 
