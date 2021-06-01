@@ -7,7 +7,7 @@ const scrapingAmazon = async (url) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
   );
   // Go to Amazon Product page
   try {
@@ -15,14 +15,14 @@ const scrapingAmazon = async (url) => {
       waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
     });
     await page.waitForSelector("#productTitle");
-    
+
     // Extract information from page
     const { title, price, imageUrl } = await page.evaluate(() => {
       const title = document.getElementById("productTitle").innerText;
-      let price = null
-      if(document.getElementById("priceblock_ourprice")){
+      let price = null;
+      if (document.getElementById("priceblock_ourprice")) {
         price = document.getElementById("priceblock_ourprice").innerText;
-      } else if (document.getElementById("priceblock_saleprice")){
+      } else if (document.getElementById("priceblock_saleprice")) {
         price = document.getElementById("priceblock_ourprice").innerText;
       }
       const imageUrl = document
@@ -45,7 +45,7 @@ const scrapingCraigslist = async (url) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
   page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
   );
   // Go to Craigslist Product page
   try {
@@ -85,7 +85,6 @@ const scrapeUrl = async (url) => {
     case "craigslist":
       return scrapingCraigslist(url);
   }
- 
 };
 
 module.exports = { scrapeUrl };
