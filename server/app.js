@@ -36,6 +36,7 @@ let connectedUsers = {};
 io.on("connection", (socket) => {
   console.log("Socket connected:", socket.id);
   connectedUsers[socket.id] = null;
+  console.log(connectedUsers);
   // When the user Logs In, the connection is associated with the username
   socket.on("login", (data) => {
     connectedUsers[socket.id] = data.username;
