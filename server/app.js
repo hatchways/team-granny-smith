@@ -87,7 +87,7 @@ app.use(errorHandler);
 // Set Amazon/Ebay/Craigslist scraper interval
 // Cron expression is in the order of "seconds minute hour dayOfMonth dayOfWeek"
 // Current setting is once a day at 12:00 AM.
-setScraperInterval("0 0 0 * * *");
+setScraperInterval("0 0 * * * *");
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
