@@ -13,11 +13,13 @@ const { setScraperInterval } = require("./utils/taskQueues");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const uploadRoute = require("./routes/upload");
+const notificationRoute = require("./routes/notification");
 const followingRoute = require("./routes/following.js");
 const listRouter = require("./routes/list");
 const productRouter = require("./routes/product");
 const { ConnectContactLens } = require("aws-sdk");
 const { connected } = require("process");
+
 
 const { json, urlencoded } = express;
 
@@ -65,6 +67,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/upload", uploadRoute);
+app.use("/notification", notificationRoute);
 app.use("/following", followingRoute);
 app.use("/list", listRouter);
 app.use("/product", productRouter);
@@ -87,7 +90,7 @@ app.use(errorHandler);
 // Set Amazon/Ebay/Craigslist scraper interval
 // Cron expression is in the order of "seconds minute hour dayOfMonth dayOfWeek"
 // Current setting is once a day at 12:00 AM.
-setScraperInterval("0 0 0 * * *");
+setScraperInterval("0 0 * * * *");
 
 // Handle unhandled promise rejections
 process.on("unhandledRejection", (err, promise) => {
