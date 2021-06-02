@@ -15,7 +15,6 @@ const scrapingAmazon = async (url) => {
       waitUntil: ["load", "domcontentloaded", "networkidle0", "networkidle2"],
     });
     await page.waitForSelector("#productTitle");
-
     // Extract information from page
     const { title, price, imageUrl } = await page.evaluate(() => {
       const title = document.getElementById("productTitle").innerText;
@@ -24,6 +23,8 @@ const scrapingAmazon = async (url) => {
         price = document.getElementById("priceblock_ourprice").innerText;
       } else if (document.getElementById("priceblock_saleprice")) {
         price = document.getElementById("priceblock_ourprice").innerText;
+      } else if (document.getElementsByClassName("a-color-price")[0]) {
+        price = document.getElementsByClassName("a-color-price")[0].innerText;
       }
       const imageUrl = document
         .getElementById("landingImage")
@@ -57,7 +58,7 @@ const scrapingCraigslist = async (url) => {
 
     // Extract information from page
     const { title, price, imageUrl } = await page.evaluate(() => {
-      const price = document.querySelector(".price").innerText;
+      let price = document.querySelector(".price").innerText;
       const title = document.getElementById("titletextonly").innerText;
       const imageUrl = document.querySelector(".swipe img").getAttribute("src");
       return { title, price, imageUrl };
@@ -80,10 +81,11 @@ const scrapeUrl = async (url) => {
   let imageUrl = "";
   switch (scraper) {
     case "amazon":
-      scrapingAmazon(url);
+      return scrapingAmazon(url);
       break;
     case "craigslist":
       return scrapingCraigslist(url);
+      break;
   }
 };
 

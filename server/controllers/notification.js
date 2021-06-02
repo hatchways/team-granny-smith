@@ -1,45 +1,12 @@
 const asyncHandler = require("express-async-handler");
-const { PriceDropNotification } = require("../models/Notification");
-const Product = require("../models/Product");
+const {
+  UserNotification,
+  PriceDropNotification,
+} = require("../models/Notification");
+const User = require("../models/User");
+const List = require("../models/List");
 
-exports.createNotification = asyncHandler(async (req, res) => {
-  const { userId } = req.params;
-  const { productId } = req.body;
-  const alreadyAdded = await PriceDropNotification.find({ productId, userId });
-  if (alreadyAdded) {
-    res.status(409).send({ message: "Notification already Added" });
-  }
-  const product = await Product.findById(productId);
-  if (!product) {
-    res.status(404).send({ message: "Product not Found" });
-  } else {
-    const priceDropNotification = await PriceDropNotification.create({
-      productId,
-      oldPrice: product.price,
-      url: product.url,
-      read: false,
-      userId,
-    });
-
-    if (priceDropNotification) {
-      res.status(201).json({
-        success: {
-          priceDropNotification: {
-            id: priceDropNotification._id,
-            productId: priceDropNotification.productId,
-            oldPrice: priceDropNotification.oldPrice,
-            url: priceDropNotification.url,
-            userId: priceDropNotification.userId,
-          },
-        },
-      });
-    } else {
-      res.status(400);
-      throw new Error("Invalid notification data");
-    }
-  }
-});
-
+// Mark as read a notification. The notification _id should be passed as parameter.
 exports.markAsReadNotification = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const notificationFound = await PriceDropNotification.findOneAndUpdate(
@@ -49,33 +16,37 @@ exports.markAsReadNotification = asyncHandler(async (req, res) => {
   );
 
   if (!notificationFound) {
-    res.status(404).send({ message: "Notification not Found" }, {});
+    res.status(404).send({ message: "Notification not Found" });
   } else {
     res.status(200).json(notificationFound);
   }
 });
 
+// Get unread Notifications. Receive userId as Param
 exports.getUnreadNotification = asyncHandler(async (req, res) => {
   const { userId } = req.params;
-  const notificationsFound = await PriceDropNotification.find({
-    userId,
-    read: false,
-  });
+  const notificationsFound = await User.findOne({
+    _id: userId,
+  }).populate("notifications");
+  const unreadNotifications = notificationsFound.notifications.filter(
+    (notif) => notif.read === false
+  );
   if (!notificationsFound) {
-    res.status(404).send({ message: "Notification not Found" }, {});
+    res.status(404).send({ message: "No Notifications Found" });
   } else {
-    res.status(200).json(notificationsFound);
+    res.status(200).json(unreadNotifications);
   }
 });
 
+// Get all notifications. Receive userId as Param
 exports.getAllNotification = asyncHandler(async (req, res) => {
   const { userId } = req.params;
-  const notificationsFound = await PriceDropNotification.find({
-    userId: userId,
-  });
+  const notificationsFound = await User.findOne({
+    _id: userId,
+  }).populate("notifications");
   if (!notificationsFound) {
-    res.status(404).send({ message: "Notification not Found" }, {});
+    res.status(404).send({ message: "No Notifications Found" });
   } else {
-    res.status(200).json(notificationsFound);
+    res.status(200).json(notificationsFound.notifications);
   }
 });

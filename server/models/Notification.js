@@ -1,16 +1,11 @@
 const { Schema, model, SchemaTypes } = require("mongoose");
 
-const priceDropSchema = new Schema({
+const priceDropNotificationSchema = new Schema({
   productId: {
-    ref: "products",
     type: Schema.Types.ObjectId,
-    required: true,
+    ref: "Product",
   },
   oldPrice: {
-    type: String,
-    required: true,
-  },
-  url: {
     type: String,
     required: true,
   },
@@ -23,15 +18,11 @@ const priceDropSchema = new Schema({
   },
   read: {
     type: Boolean,
-  },
-  userId: {
-    ref: "user",
-    type: Schema.Types.ObjectId,
-    required: true,
+    default: false
   },
 });
 
-const PriceDropNotification = model("PriceDropNotification", priceDropSchema);
+const PriceDropNotification = model("PriceDropNotification", priceDropNotificationSchema);
 
 module.exports = {
   PriceDropNotification,
