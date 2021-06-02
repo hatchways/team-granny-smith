@@ -13,11 +13,13 @@ const { setScraperInterval } = require("./utils/taskQueues");
 const authRouter = require("./routes/auth");
 const userRouter = require("./routes/user");
 const uploadRoute = require("./routes/upload");
+const notificationRoute = require("./routes/notification");
 const followingRoute = require("./routes/following.js");
 const listRouter = require("./routes/list");
 const productRouter = require("./routes/product");
 const { ConnectContactLens } = require("aws-sdk");
 const { connected } = require("process");
+
 
 const { json, urlencoded } = express;
 
@@ -65,6 +67,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/upload", uploadRoute);
+app.use("/notification", notificationRoute);
 app.use("/following", followingRoute);
 app.use("/list", listRouter);
 app.use("/product", productRouter);
