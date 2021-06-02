@@ -17,6 +17,7 @@ const notificationRoute = require("./routes/notification");
 const followingRoute = require("./routes/following.js");
 const listRouter = require("./routes/list");
 const productRouter = require("./routes/product");
+const publicListRouter = require("./routes/publicLists");
 const { ConnectContactLens } = require("aws-sdk");
 const { connected } = require("process");
 
@@ -71,6 +72,7 @@ app.use("/notification", notificationRoute);
 app.use("/following", followingRoute);
 app.use("/list", listRouter);
 app.use("/product", productRouter);
+app.use("/publiclists", publicListRouter);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));

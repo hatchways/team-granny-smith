@@ -1,10 +1,6 @@
 const asyncHandler = require("express-async-handler");
-const {
-  UserNotification,
-  PriceDropNotification,
-} = require("../models/Notification");
+const { PriceDropNotification } = require("../models/Notification");
 const User = require("../models/User");
-const List = require("../models/List");
 
 // Mark as read a notification. The notification _id should be passed as parameter.
 exports.markAsReadNotification = asyncHandler(async (req, res) => {
@@ -14,7 +10,6 @@ exports.markAsReadNotification = asyncHandler(async (req, res) => {
     { read: true },
     { new: true }
   );
-
   if (!notificationFound) {
     res.status(404).send({ message: "Notification not Found" });
   } else {

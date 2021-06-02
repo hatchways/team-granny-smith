@@ -3,7 +3,7 @@ const { Schema, model, SchemaTypes } = require("mongoose");
 const priceDropNotificationSchema = new Schema({
   productId: {
     type: Schema.Types.ObjectId,
-    ref: "Product",
+    ref: "products",
   },
   oldPrice: {
     type: String,

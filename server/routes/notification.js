@@ -7,7 +7,6 @@ const {
   getAllNotification,
 } = require("../controllers/notification");
 
-
 router.route("/:id").put(protect, markAsReadNotification);
 
 router.route("/unread/:userId").get(protect, getUnreadNotification);

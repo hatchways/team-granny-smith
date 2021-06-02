@@ -19,7 +19,7 @@ import { useSocket } from '../../context/useSocketContext';
 export default function DashboardHeader(): JSX.Element {
   const classes = useStyles();
 
-  const { socket, initSocket } = useSocket();
+  const { socket } = useSocket();
   const loggedInUser = useAuth().loggedInUser;
 
   if (loggedInUser === undefined || !loggedInUser) return <CircularProgress />;
