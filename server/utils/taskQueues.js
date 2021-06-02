@@ -25,10 +25,8 @@ async function setScraperInterval(cron) {
             const listsFound = await List.find({ products: doc.id });
             listsFound.map(async (docList) => {
               // Find users to notificate
-              console.log(doc.price);
               const users = await User.find({ _id: docList.userId });
               users.map(async (user) => {
-                console.log(doc.price);
                 const priceDropNotification =
                   await PriceDropNotification.create({
                     productId: doc.id,
@@ -45,7 +43,6 @@ async function setScraperInterval(cron) {
           doc.price = updated.price;
         }
         doc.save();
-        console.log("saved");
       });
     }
   });
