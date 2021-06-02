@@ -23,7 +23,7 @@ const scrapingAmazon = async (url) => {
       if (document.getElementById("priceblock_ourprice")) {
         price = document.getElementById("priceblock_ourprice").innerText;
       } else if (document.getElementById("priceblock_saleprice")) {
-        price = document.getElementById("priceblock_ourprice").innerText;
+        price = document.getElementById("priceblock_saleprice").innerText;
       }
       const imageUrl = document
         .getElementById("landingImage")
