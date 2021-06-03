@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Button, CircularProgress, Grid, Popover } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import useStyles from './useStyles';
@@ -14,12 +14,19 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import LogoPic from '../../Images/logoPic.png';
 import userImage from '../../Images/userImage1.png';
 
+import { useSocket } from '../../context/useSocketContext';
+
 export default function DashboardHeader(): JSX.Element {
   const classes = useStyles();
 
+  const { socket, initSocket } = useSocket();
   const loggedInUser = useAuth().loggedInUser;
 
   if (loggedInUser === undefined || !loggedInUser) return <CircularProgress />;
+
+  useEffect(() => {
+    socket?.emit('login', { username: loggedInUser.username });
+  }, [loggedInUser]);
 
   const { logout } = useAuth();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
@@ -32,6 +39,7 @@ export default function DashboardHeader(): JSX.Element {
   const popoverOpen = Boolean(anchorEl);
 
   const handleLogout = () => {
+    socket?.emit('logout', { username: loggedInUser.username });
     handleClose();
     logout();
   };
