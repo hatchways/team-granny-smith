@@ -5,8 +5,6 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 
 //this is for the case we do not have an image for the shopping list
 import placeholderImage from '../../Images/placeholder-image.png';
-import { useState } from 'react';
-import ListDetailDialog from '../ListDetailDialog/ListDetailDialog';
 import { ListInterface } from '../../interface/List';
 
 interface Props {

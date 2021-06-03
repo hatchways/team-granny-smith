@@ -1,4 +1,4 @@
-import { ProductInterface } from '../helpers/APICalls/product';
+import { ProductInterface } from './Product';
 
 export interface ListInterface {
   _id: string;

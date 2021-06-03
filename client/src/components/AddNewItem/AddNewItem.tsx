@@ -17,9 +17,10 @@ import Input from '@material-ui/core/Input';
 import React, { useState } from 'react';
 import { ListInterface } from '../../interface/List';
 import useStyles from './useStyles';
-import { ProductInterface, createNewProduct } from '../../helpers/APICalls/product';
+import { createNewProduct } from '../../helpers/APICalls/product';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps, Color } from '@material-ui/lab/Alert';
+import { ProductInterface } from '../../interface/Product';
 
 interface Props {
   lists: ListInterface[];
@@ -74,7 +75,7 @@ export default function AddNewItem({ lists }: Props): JSX.Element {
           setIsLoading(false);
           setProduct({
             name: res.name,
-            price: res.price,
+            price: res.originalPrice,
             imageUrl: res.imageUrl,
           });
           setOpenNewItemModal(true);

@@ -1,48 +1,42 @@
 import {
   Box,
   Button,
-  Checkbox,
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
-  Fade,
-  FormControlLabel,
   FormHelperText,
   Grid,
+  IconButton,
   MenuItem,
   Select,
   Slide,
   TextField,
   Typography,
 } from '@material-ui/core';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useStyles from './useStyles';
-import Dropzone from 'react-dropzone';
 import CloseIcon from '@material-ui/icons/Close';
-import createNewList from '../../helpers/APICalls/createNewList';
-import uploadImage from '../../helpers/APICalls/uploadImage';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
-
-//this is for the case we do not have an image for the shopping list
-import placeholderImage from '../../Images/placeholder-image.png';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { useSnackBar } from '../../context/useSnackbarContext';
 import { ListInterface } from '../../interface/List';
 import ProductCard from '../ProductCard/ProductCard';
-import { ProductInterface } from '../../helpers/APICalls/product';
+import { createNewProduct } from '../../helpers/APICalls/product';
+import { ProductInterface } from '../../interface/Product';
+import { validateUrl } from '../../helpers/validateUrl';
 
 interface Props {
   open: boolean;
   //   userId: string;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setLists: React.Dispatch<React.SetStateAction<ListInterface[]>>;
   list: ListInterface;
   lists: ListInterface[];
   handleClose: () => void;
 }
 
-export default function ListDetailDialog({ open, setOpen, setLists, list, lists, handleClose }: Props): JSX.Element {
+export default function ListDetailDialog({ open, setLists, list, lists, handleClose }: Props): JSX.Element {
   const classes = useStyles();
   const { updateSnackBarMessage } = useSnackBar();
   const [showProducts, setShowProducts] = useState(true);
@@ -51,8 +45,18 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
   const [newItemUrl, setNewItemUrl] = useState('');
   const [urlError, setUrlError] = useState<string>('');
   const [selectedList, setSelectedList] = useState(list._id);
+  const [newProductImageUrl, setNewProductImageUrl] = useState(
+    'https://images-na.ssl-images-amazon.com/images/I/51RRK1PHUOL._AC_SX425_.jpg',
+  );
+  const [newProductName, setNewProductName] = useState('Microsoft Sculpt Ergonomic Keyboard for Business (5KV-00001)');
+  const [newProdutPrice, setNewProdutPrice] = useState('$79.83');
+  const [showNewProductData, setShowNewProductData] = useState(false);
 
   const [submitting, setSubmitting] = useState<boolean>(false);
+
+  useEffect(() => {
+    setListState(list);
+  }, [list]);
 
   const handleNewItemUrlChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setUrlError('');
@@ -62,39 +66,61 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
   const handleSelectedListChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setSelectedList(event.target.value as string);
   };
-  //   const handleSubmit = async () => {
-  //     if (!newListTitle) {
-  //       setTitleError('Please enter a name');
-  //       return;
-  //     } else if (newListTitle.length > 30) {
-  //       setTitleError('Name should not be more than 30 characters long');
-  //       return;
-  //     }
+  const handleSubmit = async () => {
+    if (!newItemUrl) {
+      setUrlError('Please enter a url');
+      return;
+    } else if (!validateUrl(newItemUrl)) {
+      setUrlError('Please enter a valid url');
+      return;
+    }
 
-  //     setSubmitting(true);
-  //     try {
-  //       const data = await createNewList(newListTitle, userId, isPrivate, newListImage);
-  //       setSubmitting(false);
-  //       updateSnackBarMessage('List added successfully');
-  //       setOpen(false);
+    if (submitting) {
+      return;
+    }
 
-  //       //cleaning the name field and the image uploaded
-  //       setNewListTitle('');
-  //       setNewListImage('');
+    setSubmitting(true);
+    try {
+      const data = await createNewProduct(newItemUrl, selectedList);
+      setSubmitting(false);
+      setNewProductImageUrl(data.imageUrl);
+      setNewProductName(data.name);
+      setNewProdutPrice(data.originalPrice);
+      setShowNewProductData(true);
+      //cleaning the name field and the image uploaded
+      setNewItemUrl('');
 
-  //       setLists((current) => {
-  //         return [...current, data];
-  //       });
-  //     } catch (error) {
-  //       console.error(error);
-  //       updateSnackBarMessage(error);
-  //       setSubmitting(false);
-  //     }
-  //   };
+      //adding the product to our lists
+      setLists((lists) => {
+        const newLists: ListInterface[] = [];
+        lists.forEach((list) => {
+          if (list._id === selectedList) {
+            const newProducts = [...list.products, data];
+            const newList = { ...list, products: newProducts };
+            setListState(newList);
+            newLists.push(newList);
+          } else {
+            newLists.push(list);
+          }
+        });
+        return newLists;
+      });
+    } catch (error) {
+      console.error(error);
+      updateSnackBarMessage(error);
+      setSubmitting(false);
+    }
+  };
 
   const handleAddNewItem = () => {
     setShowAddNewItem((prev) => !prev);
     setShowProducts((prev) => !prev);
+  };
+
+  const handleConfirm = () => {
+    setShowNewProductData(false);
+    updateSnackBarMessage('Item added successfully');
+    handleAddNewItem();
   };
 
   return (
@@ -113,7 +139,7 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
         in={showProducts}
         mountOnEnter
         unmountOnExit
-        timeout={{ appear: 800, enter: 800, exit: 300 }}
+        timeout={{ appear: 600, enter: 600, exit: 300 }}
       >
         <Grid className={classes.productsContainer}>
           <Grid container justify="center" direction="column">
@@ -175,77 +201,105 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
         in={showAddNewItem}
         mountOnEnter
         unmountOnExit
-        timeout={{ appear: 800, enter: 800, exit: 300 }}
+        timeout={{ appear: 600, enter: 600, exit: 300 }}
       >
         <Grid>
           <Grid>
             <Typography variant="h5">
-              <Box fontWeight={700} textAlign="center" m={2}>
+              <Box fontWeight={700} textAlign="center" mb={2}>
                 Add new item:{' '}
               </Box>
             </Typography>
           </Grid>
-          <DialogContent className={classes.dialogContent}>
-            <Grid container direction="column" justify="center" alignItems="center">
-              <form className={classes.form}>
-                <FormHelperText className={classes.label}>
-                  Paste link to item: <span className={classes.required}>*</span>
-                </FormHelperText>
-                <TextField
-                  id="url"
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  InputProps={{
-                    classes: { input: classes.inputs },
-                    disableUnderline: true,
-                  }}
-                  helperText={urlError ? urlError : ''}
-                  name="title"
-                  placeholder="Enter name"
-                  value={newItemUrl}
-                  onChange={handleNewItemUrlChange}
-                />{' '}
-              </form>
-              <Grid item>
+          {showNewProductData ? (
+            <>
+              <DialogContent className={classes.dialogContent}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <img src={newProductImageUrl} alt="product-image" className={classes.image} />
+                  <Grid container item direction="column" xs>
+                    <Typography variant="subtitle1">
+                      <Box fontWeight={700}>{newProductName}</Box>
+                    </Typography>
+                  </Grid>
+                </Grid>
                 <Typography variant="subtitle1">
-                  <Box fontWeight={700} textAlign="center" mt={3}>
-                    Select List
-                  </Box>
+                  <Box mr={1}>{newProdutPrice}</Box>
                 </Typography>
+              </DialogContent>
+              <Grid container justify="center">
+                <Button onClick={handleConfirm} color="primary" variant="contained" className={classes.createButton}>
+                  Confirm
+                </Button>
               </Grid>
-              <Select
-                value={selectedList as string}
-                onChange={handleSelectedListChange}
-                disableUnderline
-                displayEmpty
-                className={classes.select}
-                inputProps={{ 'aria-label': 'Without label' }}
-              >
-                <MenuItem value="" disabled>
-                  Select list
-                </MenuItem>
-                {lists.map((item, index) => (
-                  <MenuItem key={index} value={item._id}>
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </Grid>
-          </DialogContent>
-          <Grid container justify="center">
-            <Button
-              endIcon={submitting ? <CircularProgress className={classes.buttonSpinner} /> : undefined}
-              // onClick={handleSubmit}
-              color="primary"
-              variant="contained"
-              className={classes.createButton}
-            >
-              CREATE LIST
-            </Button>
-          </Grid>
+            </>
+          ) : (
+            <>
+              <DialogContent className={classes.dialogContent}>
+                <Grid container direction="column" justify="center" alignItems="center">
+                  <form className={classes.form}>
+                    <FormHelperText className={classes.label}>
+                      Paste link to item: <span className={classes.required}>*</span>
+                    </FormHelperText>
+                    <TextField
+                      id="url"
+                      fullWidth
+                      margin="normal"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      InputProps={{
+                        classes: { input: classes.inputs },
+                        disableUnderline: true,
+                      }}
+                      helperText={urlError ? urlError : ''}
+                      name="title"
+                      placeholder="Paste url"
+                      value={newItemUrl}
+                      onChange={handleNewItemUrlChange}
+                    />{' '}
+                  </form>
+                  <Grid item>
+                    <Typography variant="subtitle1">
+                      <Box fontWeight={700} textAlign="center" mt={3}>
+                        Select List
+                      </Box>
+                    </Typography>
+                  </Grid>
+                  <Select
+                    value={selectedList as string}
+                    onChange={handleSelectedListChange}
+                    disableUnderline
+                    displayEmpty
+                    className={classes.select}
+                    inputProps={{ 'aria-label': 'Without label' }}
+                  >
+                    <MenuItem value="" disabled>
+                      Select list
+                    </MenuItem>
+                    {lists.map((item, index) => (
+                      <MenuItem key={index} value={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+              </DialogContent>
+              <Grid container justify="center" className={classes.buttonContainer}>
+                <IconButton aria-label="delete" className={classes.backButton} onClick={handleAddNewItem}>
+                  <ArrowBackIcon fontSize="large" />
+                </IconButton>
+                <Button
+                  endIcon={submitting ? <CircularProgress className={classes.buttonSpinner} /> : undefined}
+                  onClick={handleSubmit}
+                  color="primary"
+                  variant="contained"
+                  className={classes.createButton}
+                >
+                  CREATE LIST
+                </Button>
+              </Grid>
+            </>
+          )}
         </Grid>
       </Slide>
     </Dialog>

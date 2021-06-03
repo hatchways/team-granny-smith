@@ -23,7 +23,7 @@ export default function ProductCard({ product, listId, setLists, setListState }:
 
   const [loading, setLoading] = useState(false);
 
-  const { name, imageUrl, price, salePrice, _id, url } = product;
+  const { name, imageUrl, originalPrice, salePrice, _id, url } = product;
 
   const handleRemove = async () => {
     setLoading(true);
@@ -48,7 +48,6 @@ export default function ProductCard({ product, listId, setLists, setListState }:
         return newLists;
       });
 
-      setLoading(false);
       updateSnackBarMessage('Item removed successfuly');
     } catch (error) {
       updateSnackBarMessage(error);
@@ -75,7 +74,7 @@ export default function ProductCard({ product, listId, setLists, setListState }:
         <Grid item container direction="row">
           <Typography variant="subtitle1">
             <Box fontWeight={700} className={salePrice ? `${classes.lineThroughText}` : ''} mr={1}>
-              {price}
+              {originalPrice}
             </Box>
           </Typography>
           {salePrice && (

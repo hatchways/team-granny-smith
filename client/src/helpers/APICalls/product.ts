@@ -1,10 +1,4 @@
-export interface ProductInterface {
-  _id: string;
-  name: string;
-  url: string;
-  price: string;
-  imageUrl: string;
-}
+import { ProductInterface } from '../../interface/Product';
 
 const createNewProduct = async (url: string, listId: string): Promise<ProductInterface> => {
   return await fetch('/product/addProduct', {

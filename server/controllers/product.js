@@ -1,33 +1,29 @@
 const Product = require("../models/Product");
 const asyncHandler = require("express-async-handler");
 const List = require("../models/List");
-<<<<<<< HEAD
-const { scrapingAmazon, scrapingCraigslist } = require("../utils/urlScraping");
-const chooseScraper = require("../utils/chooseScraper");
-=======
 const { scrapeUrl } = require("../utils/urlScraping");
->>>>>>> main
 
 //add a product to the collection
 //Route POST /product/addProduct/:id
 exports.addProduct = asyncHandler(async (req, res, next) => {
-  try {
-    const list = await List.findById(req.body.id);
-    scrapeUrl(req.body.url).then(function (scrapeData) {
-      Product.create({
-        name: scrapeData.title,
-        price: scrapeData.price,
-        imageUrl: scrapeData.imageUrl,
-        url: req.body.url,
-      }).then(function (product) {
-        list.products.push(product);
-        list.save();
-        res.send(product);
-      });
-    });
-  } catch {
-    res.status(404).send({ error: "List not found" });
-  }
+	try {
+		const list = await List.findById(req.body.id);
+		scrapeUrl(req.body.url).then(function (scrapeData) {
+			Product.create({
+				name: scrapeData.title,
+				originalPrice: scrapeData.price,
+				imageUrl: scrapeData.imageUrl,
+				url: req.body.url,
+				priceHistory: [scrapeData.price],
+			}).then(function (product) {
+				list.products.push(product);
+				list.save();
+				res.send(product);
+			});
+		});
+	} catch {
+		res.status(404).send({ error: "List not found" });
+	}
 });
 
 //remove a product from the collection

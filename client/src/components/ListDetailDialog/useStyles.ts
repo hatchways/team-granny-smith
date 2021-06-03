@@ -34,13 +34,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0px 0px 9px 0px #eaeaea',
     textAlign: 'center',
   },
-  imageContainer: {
-    width: '100%',
-    height: '7rem',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    borderRadius: '10px 10px 0px 0px',
+  image: {
+    maxHeight: '10rem',
+    margin: '1.5rem',
   },
   uploadBox: {
     cursor: 'pointer',
@@ -61,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
     width: '20px !important',
     height: '20px !important',
     marginLeft: '.5rem',
+  },
+  backButton: {
+    position: 'absolute',
+    left: '6%',
+    top: '50%',
+    marginTop: '-27px',
   },
   dialogPaper: {
     maxWidth: '600px',
@@ -85,6 +87,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '50px',
     margin: '1.5rem 0',
   },
+  buttonContainer: { position: 'relative' },
   select: {
     '& div': {
       padding: '0 !important',

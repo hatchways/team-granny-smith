@@ -88,7 +88,6 @@ export default function ShoppingLists({ userId, lists, setLists }: Props): JSX.E
       {selectedList && (
         <ListDetailDialog
           open={listDetailOpen}
-          setOpen={setListDetailOpen}
           setLists={setLists}
           handleClose={handleListDetailClose}
           list={selectedList}
