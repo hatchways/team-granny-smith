@@ -8,7 +8,7 @@ const {
   findProduct
 } = require("../controllers/product");
 
-router.route("/addProduct/:id").post(protect, addProduct);
+router.route("/addProduct").post(protect, addProduct);
 
 router.route("/removeProduct").delete(protect, removeProduct);
 

@@ -19,7 +19,11 @@ const userSchema = new mongoose.Schema({
   register_date: {
     type: Date,
     default: Date.now
-  }
+  },
+  notifications: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "PriceDropNotification"
+  }]
 });
 
 userSchema.methods.matchPassword = async function (enteredPassword) {
