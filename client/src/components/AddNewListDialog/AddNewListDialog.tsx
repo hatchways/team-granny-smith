@@ -48,7 +48,7 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, hand
   };
 
   const handlePrivacyChange = () => {
-    setIsPrivate(!isPrivate);
+    setIsPrivate((prevPrivate) => !prevPrivate);
   };
 
   const handleUpload = async (files: File[]) => {
