@@ -5,7 +5,8 @@ import ShoppingList from '../../components/ShoppingList/ShoppingList';
 import AddIcon from '@material-ui/icons/Add';
 
 import AddNewListDialog from '../../components/AddNewListDialog/AddNewListDialog';
-import { ListInterface } from '../../helpers/APICalls/getUserLists';
+import { ListInterface } from '../../interface/List';
+import ListDetailDialog from '../ListDetailDialog/ListDetailDialog';
 
 interface Props {
   userId: string;
@@ -16,14 +17,23 @@ interface Props {
 export default function ShoppingLists({ userId, lists, setLists }: Props): JSX.Element {
   const classes = useStyles();
 
-  const [open, setOpen] = useState<boolean>(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [addNewListOpen, setAddNewListOpen] = useState<boolean>(false);
+  const [listDetailOpen, setListDetailOpen] = useState<boolean>(false);
+  const [selectedList, setSelectedList] = useState<ListInterface>();
+  const handleListDetailOpen = () => {
+    setListDetailOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleListDetailClose = () => {
+    setListDetailOpen(false);
+  };
+
+  const handleAddNewListOpen = () => {
+    setAddNewListOpen(true);
+  };
+
+  const handleAddNewListClose = () => {
+    setAddNewListOpen(false);
   };
 
   return (
@@ -35,7 +45,12 @@ export default function ShoppingLists({ userId, lists, setLists }: Props): JSX.E
         {lists.length > 0 &&
           lists.map((list: ListInterface) => {
             return (
-              <ShoppingList key={list._id} title={list.name} image={list.image} numberOfItems={list.products.length} />
+              <ShoppingList
+                key={list._id}
+                list={list}
+                handleListDetailOpen={handleListDetailOpen}
+                setSelectedList={setSelectedList}
+              />
             );
           })}
         <Grid
@@ -45,7 +60,7 @@ export default function ShoppingLists({ userId, lists, setLists }: Props): JSX.E
           justify="center"
           alignItems="center"
           className={classes.addNewListContainer}
-          onClick={handleClickOpen}
+          onClick={handleAddNewListOpen}
         >
           <Grid item>
             <Typography variant="subtitle1">
@@ -63,7 +78,22 @@ export default function ShoppingLists({ userId, lists, setLists }: Props): JSX.E
           </Grid>
         </Grid>
       </Grid>
-      <AddNewListDialog open={open} setOpen={setOpen} setLists={setLists} handleClose={handleClose} userId={userId} />
+      <AddNewListDialog
+        open={addNewListOpen}
+        setOpen={setAddNewListOpen}
+        setLists={setLists}
+        handleClose={handleAddNewListClose}
+        userId={userId}
+      />
+      {selectedList && (
+        <ListDetailDialog
+          open={listDetailOpen}
+          setLists={setLists}
+          handleClose={handleListDetailClose}
+          list={selectedList}
+          lists={lists}
+        />
+      )}
     </Grid>
   );
 }

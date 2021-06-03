@@ -7,9 +7,9 @@ import ShoppingLists from '../../components/ShoppingLists/ShoppingLists';
 import { useEffect, useState } from 'react';
 import { useAuth } from '../../context/useAuthContext';
 import { CircularProgress } from '@material-ui/core';
-import { ListInterface } from '../../helpers/APICalls/getUserLists';
 import getUserLists from '../../helpers/APICalls/getUserLists';
 import { useSnackBar } from '../../context/useSnackbarContext';
+import { ListInterface } from '../../interface/List';
 
 export default function Dashboard(): JSX.Element {
   const classes = useStyles();

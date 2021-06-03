@@ -15,7 +15,7 @@ const ListSchema = new mongoose.Schema({
 	},
 	isPrivate: {
 		type: Boolean,
-		default: true,
+		required: true,
 	},
 });
 

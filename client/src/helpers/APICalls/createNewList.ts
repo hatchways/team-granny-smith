@@ -1,13 +1,12 @@
-interface ListInterface {
-  _id: string;
-  name: string;
-  products: string[];
-  userId: string;
-  image?: string;
-}
+import { ListInterface } from '../../interface/List';
 
-const createNewList = async (name: string, userId: string, image?: string): Promise<ListInterface> => {
-  const body = { name, image, userId };
+const createNewList = async (
+  name: string,
+  userId: string,
+  isPrivate: boolean,
+  image?: string,
+): Promise<ListInterface> => {
+  const body = { name, image, userId, isPrivate };
   return await fetch('/list/addList', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
