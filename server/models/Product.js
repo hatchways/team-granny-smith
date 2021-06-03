@@ -12,13 +12,14 @@ const ProductSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	price: {
+	originalPrice: {
 		type: String,
 		required: true,
 	},
 	imageUrl: {
 		type: String,
 	},
+	priceHistory: [{ type: String }],
 	salePrice: { type: String },
 });
 

@@ -50,15 +50,18 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
   const [listState, setListState] = useState<ListInterface>(list);
   const [newItemUrl, setNewItemUrl] = useState('');
   const [urlError, setUrlError] = useState<string>('');
+  const [selectedList, setSelectedList] = useState(list._id);
 
   const [submitting, setSubmitting] = useState<boolean>(false);
-  const [uploading, setUploading] = useState<boolean>(false);
 
   const handleNewItemUrlChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setUrlError('');
     setNewItemUrl(event.target.value as string);
   };
 
+  const handleSelectedListChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setSelectedList(event.target.value as string);
+  };
   //   const handleSubmit = async () => {
   //     if (!newListTitle) {
   //       setTitleError('Please enter a name');
@@ -92,11 +95,6 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
   const handleAddNewItem = () => {
     setShowAddNewItem((prev) => !prev);
     setShowProducts((prev) => !prev);
-  };
-
-  const handleBackButton = () => {
-    setShowProducts((prev) => !prev);
-    setShowAddNewItem((prev) => !prev);
   };
 
   return (
@@ -181,10 +179,6 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
       >
         <Grid>
           <Grid>
-            {' '}
-            <Box ml={'auto'} textAlign={'right'} m={2}>
-              <CloseIcon className={classes.closeIcon} onClick={handleClose} />
-            </Box>
             <Typography variant="h5">
               <Box fontWeight={700} textAlign="center" m={2}>
                 Add new item:{' '}
@@ -223,7 +217,7 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
                 </Typography>
               </Grid>
               <Select
-                value={list._id as string}
+                value={selectedList as string}
                 onChange={handleSelectedListChange}
                 disableUnderline
                 displayEmpty
@@ -239,18 +233,19 @@ export default function ListDetailDialog({ open, setOpen, setLists, list, lists,
                   </MenuItem>
                 ))}
               </Select>
-
-              <Button
-                endIcon={submitting ? <CircularProgress className={classes.buttonSpinner} /> : undefined}
-                onClick={handleSubmit}
-                color="primary"
-                variant="contained"
-                className={classes.createButton}
-              >
-                CREATE LIST
-              </Button>
             </Grid>
           </DialogContent>
+          <Grid container justify="center">
+            <Button
+              endIcon={submitting ? <CircularProgress className={classes.buttonSpinner} /> : undefined}
+              // onClick={handleSubmit}
+              color="primary"
+              variant="contained"
+              className={classes.createButton}
+            >
+              CREATE LIST
+            </Button>
+          </Grid>
         </Grid>
       </Slide>
     </Dialog>

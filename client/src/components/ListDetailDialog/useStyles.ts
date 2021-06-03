@@ -86,11 +86,22 @@ const useStyles = makeStyles((theme) => ({
     margin: '1.5rem 0',
   },
   select: {
-    padding: '.8rem .5rem .8rem 1.5rem',
-    border: 'none',
-    marginRight: '1rem',
-    borderLeft: '2px solid  #f3f3f3',
+    '& div': {
+      padding: '0 !important',
+    },
+    '& svg': {
+      marginRight: '1rem',
+    },
+    width: '100%',
+    height: '50px',
+    borderRadius: '10px',
+    backgroundColor: 'white',
+    boxShadow: '0px 0px 9px 0px #eaeaea',
+    textAlign: 'center',
+    marginTop: '1rem',
+    padding: '2rem 0',
   },
+
   titleContainer: {},
 }));
 
