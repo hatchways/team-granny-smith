@@ -1,9 +1,11 @@
 import {
   Box,
   Button,
+  Checkbox,
   CircularProgress,
   Dialog,
   DialogContent,
+  FormControlLabel,
   FormHelperText,
   Grid,
   TextField,
@@ -18,8 +20,8 @@ import uploadImage from '../../helpers/APICalls/uploadImage';
 
 //this is for the case we do not have an image for the shopping list
 import placeholderImage from '../../Images/placeholder-image.png';
-import { ListInterface } from '../../helpers/APICalls/getUserLists';
 import { useSnackBar } from '../../context/useSnackbarContext';
+import { ListInterface } from '../../interface/List';
 
 interface Props {
   open: boolean;
@@ -38,10 +40,15 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, hand
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [titleError, setTitleError] = useState<string>('');
   const [uploading, setUploading] = useState<boolean>(false);
+  const [isPrivate, setIsPrivate] = useState<boolean>(false);
 
   const handleNewListTitleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTitleError('');
     setNewListTitle(event.target.value as string);
+  };
+
+  const handlePrivacyChange = () => {
+    setIsPrivate((prevPrivate) => !prevPrivate);
   };
 
   const handleUpload = async (files: File[]) => {
@@ -70,7 +77,7 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, hand
 
     setSubmitting(true);
     try {
-      const data = await createNewList(newListTitle, userId, newListImage);
+      const data = await createNewList(newListTitle, userId, isPrivate, newListImage);
       setSubmitting(false);
       updateSnackBarMessage('List added successfully');
       setOpen(false);
@@ -125,6 +132,10 @@ export default function AddNewListDialog({ open, userId, setOpen, setLists, hand
               value={newListTitle}
               onChange={handleNewListTitleChange}
             />{' '}
+            <FormControlLabel
+              control={<Checkbox checked={isPrivate} onChange={handlePrivacyChange} name="isPrivate" color="primary" />}
+              label="Private List"
+            />
           </form>
           <Grid item>
             <Typography variant="subtitle1">

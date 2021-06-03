@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import React, { useState } from 'react';
-import { ListInterface } from '../../helpers/APICalls/getUserLists';
+import { ListInterface } from '../../interface/List';
 import useStyles from './useStyles';
 import { ProductInterface, createNewProduct } from '../../helpers/APICalls/product';
 import Snackbar from '@material-ui/core/Snackbar';

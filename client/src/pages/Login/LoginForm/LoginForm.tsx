@@ -90,6 +90,7 @@ export default function Login({ handleSubmit }: Props): JSX.Element {
             Password:
           </FormHelperText>
           <TextField
+            type="password"
             id="password"
             fullWidth
             margin="normal"
@@ -111,13 +112,7 @@ export default function Login({ handleSubmit }: Props): JSX.Element {
             <Button type="submit" size="large" variant="contained" color="primary" className={classes.submit}>
               {isSubmitting ? <CircularProgress className={classes.circularProgress} /> : 'LOGIN'}
             </Button>
-            <Button
-              size="small"
-              variant="contained"
-              color="primary"
-              className={classes.demoButton}
-              onClick={handleDemo}
-            >
+            <Button size="large" variant="outlined" color="primary" className={classes.demoButton} onClick={handleDemo}>
               {isSubmitting ? <CircularProgress className={classes.circularProgress} /> : 'LOGIN DEMO USER'}
             </Button>
           </Box>

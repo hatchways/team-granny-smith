@@ -13,6 +13,10 @@ const ListSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "user",
 	},
+	isPrivate: {
+		type: Boolean,
+		required: true,
+	},
 });
 
 const List = mongoose.model("lists", ListSchema);

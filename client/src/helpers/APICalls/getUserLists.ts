@@ -1,10 +1,4 @@
-export interface ListInterface {
-  _id: string;
-  name: string;
-  products: string[];
-  userId: string;
-  image?: string;
-}
+import { ListInterface } from '../../interface/List';
 
 const getUserLists = async (): Promise<{ data: ListInterface[] }> => {
   return await fetch(`/list/findList`, {
