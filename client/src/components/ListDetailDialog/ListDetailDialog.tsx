@@ -45,11 +45,9 @@ export default function ListDetailDialog({ open, setLists, list, lists, handleCl
   const [newItemUrl, setNewItemUrl] = useState('');
   const [urlError, setUrlError] = useState<string>('');
   const [selectedList, setSelectedList] = useState(list._id);
-  const [newProductImageUrl, setNewProductImageUrl] = useState(
-    'https://images-na.ssl-images-amazon.com/images/I/51RRK1PHUOL._AC_SX425_.jpg',
-  );
-  const [newProductName, setNewProductName] = useState('Microsoft Sculpt Ergonomic Keyboard for Business (5KV-00001)');
-  const [newProdutPrice, setNewProdutPrice] = useState('$79.83');
+  const [newProductImageUrl, setNewProductImageUrl] = useState('');
+  const [newProductName, setNewProductName] = useState('');
+  const [newProdutPrice, setNewProdutPrice] = useState('');
   const [showNewProductData, setShowNewProductData] = useState(false);
 
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -295,7 +293,7 @@ export default function ListDetailDialog({ open, setLists, list, lists, handleCl
                   variant="contained"
                   className={classes.createButton}
                 >
-                  CREATE LIST
+                  CREATE PRODUCT
                 </Button>
               </Grid>
             </>
