@@ -15,6 +15,7 @@ exports.addProduct = asyncHandler(async (req, res, next) => {
 				imageUrl: scrapeData.imageUrl,
 				url: req.body.url,
 				priceHistory: [scrapeData.price],
+				listId: req.body.id,
 			}).then(function (product) {
 				list.products.push(product);
 				list.save();

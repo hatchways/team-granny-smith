@@ -21,6 +21,11 @@ const ProductSchema = new mongoose.Schema({
 	},
 	priceHistory: [{ type: String }],
 	salePrice: { type: String },
+	listId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "lists",
+		required: true,
+	},
 });
 
 const Product = mongoose.model("products", ProductSchema);
