@@ -8,7 +8,7 @@ const ListSchema = new mongoose.Schema({
 	image: {
 		type: String,
 	},
-	products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+	products: [{ type: mongoose.Schema.Types.ObjectId, ref: "products" }],
 	userId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "user",
